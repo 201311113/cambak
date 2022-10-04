@@ -12,6 +12,11 @@ class User (
     val email: String,
     @Column(length = 200)
     val password: String ?= null,
+    @Column(length = 50)
+    var mobileNo: String? = null,
+    @Column(length = 200)
+    val nickname: String ?= null,
+    val isVendor: Boolean = false
 
 
-):BaseEntity()
+    ):BaseEntity()

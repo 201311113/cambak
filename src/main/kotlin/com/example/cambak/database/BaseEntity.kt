@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
 import java.time.Instant
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @MappedSuperclass
@@ -16,10 +17,10 @@ abstract class BaseEntity: Serializable {
     var id: String? = CommonUtils.uuid()
 
     @CreatedDate
-    lateinit var created: Instant
+    var created: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
-    lateinit var updated: Instant
+    var updated: LocalDateTime = LocalDateTime.now()
 
     @Column(columnDefinition = "boolean default true")
     var active: Boolean = true
