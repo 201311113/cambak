@@ -26,12 +26,14 @@ class JwtUtils (
 
 
     //TODO: 토큰유효 시간 설정 레거시 정하기
+    val ACCESS_TOKEN_EXPIRED = 30*60*1000L
+    val REFRESH_TOKEN_EXPIRED = 30*60*48000L
 
     fun createAccessToken(
         userId: String,
         roles: Array<String>,
     ):String{
-        val accessTokenValidTime: Long = 30*60*10000L
+        val accessTokenValidTime: Long = ACCESS_TOKEN_EXPIRED
         return generate(userId, roles, accessTokenValidTime, secretKey)
     }
 
@@ -39,7 +41,7 @@ class JwtUtils (
         username: String,
         roles: Array<String>,
     ):String{
-        val refreshTokenValidTime: Long = 30*60*2000L
+        val refreshTokenValidTime: Long = REFRESH_TOKEN_EXPIRED
         return generate(username, roles, refreshTokenValidTime, refreshKey)
     }
 
@@ -97,8 +99,7 @@ class JwtUtils (
         val authorities = getRoles(jwt)
 
         //db와 비교
-        //TODO: user 설계 후 기
-//        if(!repo.userRepository.existsByUserId(userId)) throw Exception("토큰이 유효하지 않습니다.")
+        if(!repo.userRepository.existsByEmail(userId)) throw Exception("토큰이 유효하지 않습니다.")
 
 
         return UsernamePasswordAuthenticationToken(userId, null, authorities)

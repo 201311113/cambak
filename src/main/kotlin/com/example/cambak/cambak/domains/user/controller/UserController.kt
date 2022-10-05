@@ -1,4 +1,4 @@
-package com.example.cambak.cambak.user.controller
+package com.example.cambak.cambak.domains.user.controller
 
 import com.example.cambak.cambak.common.util.ServiceProvider
 import org.springframework.beans.factory.annotation.Autowired

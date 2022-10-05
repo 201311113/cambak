@@ -1,4 +1,4 @@
-package com.example.cambak.cambak.auth.model
+package com.example.cambak.cambak.domains.auth.model
 
 import com.example.cambak.cambak.common.util.Response
 

@@ -1,7 +1,7 @@
-package com.example.cambak.cambak.auth.service.impl
+package com.example.cambak.cambak.domains.auth.service.impl
 
-import com.example.cambak.cambak.auth.model.AuthDto
-import com.example.cambak.cambak.auth.service.AuthService
+import com.example.cambak.cambak.domains.auth.model.AuthDto
+import com.example.cambak.cambak.domains.auth.service.AuthService
 import com.example.cambak.cambak.common.jwt.JwtUtils
 import com.example.cambak.cambak.common.util.EMAIL_NOT_FOUND
 import com.example.cambak.cambak.common.util.OK
