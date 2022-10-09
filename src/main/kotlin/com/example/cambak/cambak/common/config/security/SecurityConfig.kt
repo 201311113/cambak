@@ -33,7 +33,7 @@ class SecurityConfig (
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/auth/token","/auth/register")
+                .antMatchers("/auth/token","/auth/register","/dev/**","/camping-car/configs")
                 .permitAll()
                 .antMatchers("/**")
                 .authenticated()
