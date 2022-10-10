@@ -1,6 +1,7 @@
 package com.example.cambak.database.entity
 
 import com.example.cambak.database.BaseEntity
+import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -19,6 +20,13 @@ class CampingCar (
     val address: String,
     val websiteAddress: String,
     val region: Region,
+    val isDeliveryPossible: Boolean,
+    val isPetPossible: Boolean,
+    val passengersNumber: Long,
+    val sleepPossibleNumber: Long,
+    val isParkingPossible: Boolean,
+    val isEquipmentProvide: Boolean,
+
     val rentalTime: LocalDateTime,
     val returnTime: LocalDateTime,
     val driverAgeLimit: Long,
