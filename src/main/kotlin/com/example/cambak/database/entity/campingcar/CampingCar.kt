@@ -1,20 +1,22 @@
 package com.example.cambak.database.entity
 
+import com.example.cambak.cambak.domains.campingcar.model.CampingCarDto
 import com.example.cambak.database.BaseEntity
 import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Lob
+import javax.persistence.*
 
 @Entity
 class CampingCar (
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    val user: User,
 
     @Column(length = 100)
     val productName: String,
     val oneLineDescription: String,
     @Lob
-    val Description: String,
+    val description: String,
 //    val images: List<String> ?= null,
     val mobileNo: String,
     val address: String,
@@ -27,10 +29,11 @@ class CampingCar (
     val isParkingPossible: Boolean,
     val isEquipmentProvide: Boolean,
 
-    val rentalTime: LocalDateTime,
-    val returnTime: LocalDateTime,
+    val rentalTime: String,
+    val returnTime: String,
     val driverAgeLimit: Long,
-    val driverLicense: String,
+    @Enumerated(value = EnumType.STRING)
+    val driverLicense: CampingCarDto.EnrollCampingCarReq.LicenseCategory,
     val drivingExperience: Long,
     val weekdayPrice: Long,
     val weekendPrice: Long,

@@ -14,11 +14,11 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 
 @Configuration
-open class SwaggerConfig(
+class SwaggerConfig(
     val swaggerProps: SwaggerProps
 ) {
     @Bean
-    open fun api(): Docket {
+    fun api(): Docket {
         val servers = swaggerProps.servers.map{
             Server(
                 it.description,

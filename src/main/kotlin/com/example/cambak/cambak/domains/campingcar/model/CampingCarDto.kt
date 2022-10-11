@@ -13,8 +13,8 @@ class CampingCarDto {
         @ApiModelProperty(name = "한줄 소개")
         var oneLineDescription: String,
         @ApiModelProperty(name = "캠핑카 소개")
-        var Description: String,
-        @ApiModelProperty(name = "전화번호")
+        var description: String,
+        @ApiModelProperty(name = "전화번호", value = "ex) 010-0000-0000")
         var mobileNo: String,
         @ApiModelProperty(name = "업체 주소")
         var address: String,
@@ -34,14 +34,14 @@ class CampingCarDto {
         var isParkingPossible: Boolean,
         @ApiModelProperty(name = "캠핑장비 기본제공 여부")
         var isEquipmentProvide: Boolean,
-        @ApiModelProperty(name = "대여일 출고시간")
-        var rentalTime: LocalDateTime,
-        @ApiModelProperty(name = "반납일 반납시간")
-        var returnTime: LocalDateTime,
+        @ApiModelProperty(name = "대여일 출고시간", value = "ex ) 09:00")
+        var rentalTime: String,
+        @ApiModelProperty(name = "반납일 반납시간", value = "ex ) 16:00")
+        var returnTime: String,
         @ApiModelProperty(name = "운전자 최소 연령")
         var driverAgeLimit: Long,
-        @ApiModelProperty(name = "운전자 면허종류")
-        var driverLicense: String,
+        @ApiModelProperty(name = "운전자 면허종류", value = "[ONE_LARGE(\"1종 대형\"),ONE_NORMAL(\"1종 보통\"),TWO_NORMAL(\"2종 보통\"), SMALL_TOW(\"소형 견인차\")]")
+        var driverLicense: LicenseCategory,
         @ApiModelProperty(name = "운전자 운전경력")
         var drivingExperience: Long,
         @ApiModelProperty(name = "평일 가격")
@@ -60,13 +60,18 @@ class CampingCarDto {
         var possibleRentalDaysMin: Long,
         @ApiModelProperty(name = "최대 예약가능 일수", required = false)
         var possibleRentalDaysMax: Long,
+        @ApiModelProperty(name = "기본 보유시설 체크한 것만 list", value = "ex) [air_conditioner,bed,...]", required = false)
+        var basicConfigList: List<String> ?= null,
         @ApiModelProperty(name = "성수기/비성수기 요금 입력", required = false)
-        var priceBySeasonList: List<PriceBySeason>,
+        var priceBySeasonList: List<PriceBySeason>? = null,
         @ApiModelProperty(name = "추가요금 (차량보험료 등 고객의사와 관계없이 기본적으로 추가되는 비용)", required = false)
-        var priceBySurchargeList: List<PriceBySurcharge>,
+        var priceBySurchargeList: List<PriceBySurcharge>? = null,
         @ApiModelProperty(name = "추가옵션 (텐트, 불멍세트, 바베큐세트, 스피커 등 고객이 선택하여 추가 구매를 할 수 있는 상품)", required = false)
-        var additionalOptionList: List<AdditionalOptions>
+        var additionalOptionList: List<AdditionalOptions>? = null
         ){
+        enum class LicenseCategory(description: String){
+            ONE_LARGE("1종 대형"),ONE_NORMAL("1종 보통"),TWO_NORMAL("2종 보통"), SMALL_TOW("소형 견인차")
+        }
         class PriceBySeason(
             @ApiModelProperty(name = "시작일", value = "DD/MM")
             var startDay: String,
