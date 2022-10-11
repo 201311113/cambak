@@ -32,6 +32,8 @@ class CampingCarController {
     fun enroll(
         @RequestBody req: CampingCarDto.EnrollCampingCarReq
     ): CampingCarDto.EnrollCampingCarRes{
+
+        println("[[[[[[[[[[[[[[[[[[--------- 캠핑카 등록 ---------]]]]]]]]]]]]]]]]]")
         return serviceProvider.campingcarService.enroll(req)
     }
 

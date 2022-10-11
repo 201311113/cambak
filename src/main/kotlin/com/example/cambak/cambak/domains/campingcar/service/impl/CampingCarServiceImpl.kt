@@ -20,6 +20,8 @@ class CampingCarServiceImpl(
     override fun enroll(
         req: CampingCarDto.EnrollCampingCarReq
     ): CampingCarDto.EnrollCampingCarRes {
+
+        println("[[[[[[[[[[[[[[[[[[--------- 캠핑카 등록 서비스---------]]]]]]]]]]]]]]]]]")
         //user validate
         val context = SecurityContextHolder.getContext()
         println(context.authentication.name)
