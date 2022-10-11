@@ -104,6 +104,7 @@ class CampingCarServiceImpl(
     }
 
     override fun configListUp(): CampingCarDto.ConfigListUpRes {
+        println("[[[[[[[[[[[[[[[[[[--------- 부가기능 리스트 ---------]]]]]]]]]]]]]]]]]")
         val configList = repo.campingCarConfigRepository.findAllByConfigType("basic")!!
             .stream()
             .map {

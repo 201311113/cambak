@@ -30,6 +30,7 @@ class CampingCarConfigController {
     fun addConfig(
         @RequestBody req: CampingCarConfigDto.AddConfigReq
     ): Response{
+        println("[[[[[[[[[[[[[[[[[[--------- 부가기능 추가 ---------]]]]]]]]]]]]]]]]]")
         return campingCarConfigService.addConfig(req)
     }
     @PostMapping("/add/type")

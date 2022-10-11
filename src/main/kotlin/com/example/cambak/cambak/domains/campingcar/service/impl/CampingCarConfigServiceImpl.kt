@@ -12,6 +12,7 @@ class CampingCarConfigServiceImpl(
     var repo: RepositoryProvider,
 ): CampingCarConfigService {
     override fun addConfig(req: CampingCarConfigDto.AddConfigReq): Response {
+        println("[[[[[[[[[[[[[[[[[[--------- 부가기능 추가 서비스---------]]]]]]]]]]]]]]]]]")
         if(!repo.campingCarConfigRepository.existsByConfigType(req.configType)) return Response(CONFIG_TYPE_NOT_FOUND)
         if(repo.campingCarConfigRepository.existsByCampingCarConfigKey(req.configKey)) return Response(ALREADY_CONFIG_KEY_EXIST)
         if(repo.campingCarConfigRepository.existsByCampingCarConfigName(req.configName)) return Response(ALREADY_CONFIG_KEY_EXIST)
@@ -25,6 +26,7 @@ class CampingCarConfigServiceImpl(
     }
 
     override fun addConfigType(req: CampingCarConfigDto.AddConfigTypeReq): Response {
+        println("[[[[[[[[[[[[[[[[[[--------- 부가기능 타입 추가 서비스 ---------]]]]]]]]]]]]]]]]]")
         val campingCarConfig = CampingCarConfig(
             "admin",
             "admin",

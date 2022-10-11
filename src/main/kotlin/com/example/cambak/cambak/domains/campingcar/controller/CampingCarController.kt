@@ -50,6 +50,7 @@ class CampingCarController {
     )
     @GetMapping("/configs")
     fun configListUp(): CampingCarDto.ConfigListUpRes{
+        println("[[[[[[[[[[[[[[[[[[--------- 부가기능 리스트업 컨트롤러---------]]]]]]]]]]]]]]]]]")
         return serviceProvider.campingcarService.configListUp()
     }
 }
