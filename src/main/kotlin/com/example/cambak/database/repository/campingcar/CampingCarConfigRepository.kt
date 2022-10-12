@@ -1,4 +1,4 @@
-package com.example.cambak.database.repository
+package com.example.cambak.database.repository.campingcar
 
 import com.example.cambak.database.entity.campingcar.CampingCarConfig
 import org.springframework.data.jpa.repository.JpaRepository

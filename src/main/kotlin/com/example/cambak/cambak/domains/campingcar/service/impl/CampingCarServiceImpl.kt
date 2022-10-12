@@ -2,11 +2,17 @@ package com.example.cambak.cambak.domains.campingcar.service.impl
 
 import com.example.cambak.cambak.common.util.*
 import com.example.cambak.cambak.domains.campingcar.model.CampingCarDto
+import com.example.cambak.cambak.domains.campingcar.model.CampingCarFilterType
 import com.example.cambak.cambak.domains.campingcar.service.CampingCarService
 import com.example.cambak.database.entity.CampingCar
 import com.example.cambak.database.entity.User
+import com.example.cambak.database.entity.campingcar.CampingCarAdditionalOptions
+import com.example.cambak.database.entity.campingcar.CampingCarConfigMapping
+import com.example.cambak.database.entity.campingcar.CampingCarPriceBySeason
+import com.example.cambak.database.entity.campingcar.CampingCarPriceBySurcharge
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.util.regex.Pattern
 import javax.transaction.Transactional
 import kotlin.jvm.Throws
@@ -21,10 +27,9 @@ class CampingCarServiceImpl(
         req: CampingCarDto.EnrollCampingCarReq
     ): CampingCarDto.EnrollCampingCarRes {
 
-        println("[[[[[[[[[[[[[[[[[[--------- 캠핑카 등록 서비스---------]]]]]]]]]]]]]]]]]")
         //user validate
         val context = SecurityContextHolder.getContext()
-        println(context.authentication.name)
+
         val user = repo.userRepository.findByEmailAndActive(context.authentication.name)
             ?: return CampingCarDto.EnrollCampingCarRes(USER_NOT_FOUND)
 
@@ -43,8 +48,6 @@ class CampingCarServiceImpl(
         }catch (e: Exception){
             return CampingCarDto.EnrollCampingCarRes(RENTAL_TIME_INVALID)
         }
-
-
 
 
         val newCampingCar = CampingCar(
@@ -75,30 +78,109 @@ class CampingCarServiceImpl(
             discountPercentByThreeDays = req.discountPercentByThreeDays,
             possibleRentalDaysMin = req.possibleRentalDaysMin,
             possibleRentalDaysMax = req.possibleRentalDaysMax,
-            //TODO:season config
-            //TODO:basic config
-            //TODO:surcharge config
-            //TODO:add options config
         )
-        try{
-            if(!req.basicConfigList.isNullOrEmpty()) validateBasicConfig(req.basicConfigList!!)
-        }catch (e: Exception){
-            return CampingCarDto.EnrollCampingCarRes(BASIC_CONFIG_INVALID)
-        }
 
 
-        return CampingCarDto.EnrollCampingCarRes(OK)
+        //Create DB logic
+        repo.campingCarRepository.save(newCampingCar)
+        //TODO: query 최적화 필요
 
+        req.basicConfigList?.stream()?.map {
+            CampingCarConfigMapping(
+                campingCar = newCampingCar,
+                campingCarConfig = repo.campingCarConfigRepository.findByConfigType(it)?: throw BadRequestException(CONFIG_TYPE_NOT_FOUND)
+            )
+        }?.toList()?.let { repo.campingCarConfigMappingRepository.saveAll(it) }
+
+
+        req.priceBySeasonList?.stream()?.map {
+            CampingCarPriceBySeason(
+                campingCar = newCampingCar,
+                startDay = it.startDay,
+                endDay = it.endDay,
+                weekDayPrice = it.weekDayPrice,
+                weekendPrice = it.weekendPrice
+            )
+        }?.toList()?.let { repo.campingCarPriceBySeasonRepository.saveAll(it) }
+
+        req.priceBySurchargeList?.stream()?.map {
+            CampingCarPriceBySurcharge(
+                campingCar = newCampingCar,
+                serviceName = it.serviceName,
+                payMethod = it.payMethod,
+                price = it.price
+            )
+        }?.toList()?.let { repo.campingCarPriceBySurchargeRepository.saveAll(it) }
+
+        req.additionalOptionList?.stream()?.map {
+            CampingCarAdditionalOptions(
+                campingCar = newCampingCar,
+                optionName = it.optionName,
+                price = it.price
+            )
+        }?.toList()?.let { repo.campingCarAdditionalOptionsRepository.saveAll(it) }
+
+
+        return CampingCarDto.EnrollCampingCarRes(
+            OK,
+            newCampingCar.id
+        )
     }
 
-    @Throws(Exception::class)
-    private fun validateBasicConfig(
-        configList: List<String>
-    ):Boolean{
-        //TODO: validate query 짜기
-//        repo.campingCarConfigRepository.existsByConfigList(configList)
-        throw Exception("Invalid basic config")
+    override fun uploadImages(
+        campingCarId: String, images: List<MultipartFile>
+    ): CampingCarDto.CampingCarImageRes {
+
+        return CampingCarDto.CampingCarImageRes(OK)
     }
+
+    override fun delete(campingCarId: String): CampingCarDto.DeleteCampingCarRes {
+        val campingCar = repo.campingCarRepository.findByIdAndActive(campingCarId)
+            ?: return CampingCarDto.DeleteCampingCarRes(CAMPING_CAR_NOT_FOUND)
+
+        //TODO: delete 쿼리 한번에 하는 것이나 제약조건 거는거 찾고 블로깅
+        repo.campingCarRepository.delete(campingCar)
+
+        return CampingCarDto.DeleteCampingCarRes(OK)
+    }
+
+    override fun listUp(
+        filterTypeList: List<CampingCarFilterType>?
+    ): CampingCarDto.GetCampingCarListRes {
+        //TODO: 기획 - 어떤거 가져올 지
+
+        val campingCarList = repo.campingCarRepository.findAll()
+            .stream()
+            .map {
+                CampingCarDto.GetCampingCarListRes.CampingCarInfo(
+                    id = it.id!!,
+                    productName = it.productName,
+                    description = it.description,
+                )
+            }
+            .toList()
+
+        return CampingCarDto.GetCampingCarListRes(
+            OK,
+            campingCarList
+        )
+    }
+
+    override fun getDetail(campingCarId: String): CampingCarDto.GetCampingCarDetailRes {
+        val campingCar = repo.campingCarRepository.findByIdAndActive(campingCarId)
+            ?: return CampingCarDto.GetCampingCarDetailRes(CAMPING_CAR_NOT_FOUND)
+
+        return CampingCarDto.GetCampingCarDetailRes(
+            OK,
+            CampingCarDto.GetCampingCarDetailRes.CampingCarDetail(
+                id = campingCar.id!!,
+                productName = campingCar.productName,
+                oneLineDescription = campingCar.oneLineDescription,
+                description = campingCar.description
+            )
+        )
+    }
+
 
     @Throws(Exception::class)
     private fun validateTime(time: String): Boolean{
@@ -109,7 +191,6 @@ class CampingCarServiceImpl(
     }
 
     override fun configListUp(): CampingCarDto.ConfigListUpRes {
-        println("[[[[[[[[[[[[[[[[[[--------- 부가기능 리스트 ---------]]]]]]]]]]]]]]]]]")
         val configList = repo.campingCarConfigRepository.findAllByConfigType("basic")!!
             .stream()
             .map {

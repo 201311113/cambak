@@ -21,6 +21,9 @@ const val PASSWORD_NOT_MATCHED = -1002
 const val USER_NOT_FOUND = -1003
 const val USER_IS_NOT_VENDOR = -1004
 
+//캠핑카 관련
+const val CAMPING_CAR_NOT_FOUND = -2000
+
 //캠핑카 Config 관련
 const val CONFIG_TYPE_NOT_FOUND = -9000
 const val ALREADY_CONFIG_KEY_EXIST = -9001
@@ -37,6 +40,9 @@ val msgMap = mapOf(
     PASSWORD_NOT_MATCHED to "비밀번호가 일치하지 않습니다.",
     USER_NOT_FOUND to "사용자를 찾을 수 없습니다.",
     USER_IS_NOT_VENDOR to "판매자 등록이되지 않은 유저입니다.",
+
+    //캠핑카 관련
+    CAMPING_CAR_NOT_FOUND to "캠핑카를 찾을 수 없습니다.",
 
     //캠핑카 Config 관련
     CONFIG_TYPE_NOT_FOUND to "부가시설 type을 찾을 수 없습니다.",

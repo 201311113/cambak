@@ -2,8 +2,6 @@ package com.example.cambak.database.entity
 
 import com.example.cambak.cambak.domains.campingcar.model.CampingCarDto
 import com.example.cambak.database.BaseEntity
-import io.swagger.annotations.ApiModelProperty
-import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
