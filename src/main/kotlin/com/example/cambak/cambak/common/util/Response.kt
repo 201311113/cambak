@@ -19,6 +19,7 @@ const val EMAIL_NOT_FOUND = -1000
 const val EMAIL_ALREADY_EXISTED = -1001
 const val PASSWORD_NOT_MATCHED = -1002
 const val USER_NOT_FOUND = -1003
+const val USER_IS_NOT_VENDOR = -1004
 
 //캠핑카 Config 관련
 const val CONFIG_TYPE_NOT_FOUND = -9000
@@ -35,6 +36,7 @@ val msgMap = mapOf(
     EMAIL_ALREADY_EXISTED to "이미 존재하는 이메일 입니다.",
     PASSWORD_NOT_MATCHED to "비밀번호가 일치하지 않습니다.",
     USER_NOT_FOUND to "사용자를 찾을 수 없습니다.",
+    USER_IS_NOT_VENDOR to "판매자 등록이되지 않은 유저입니다.",
 
     //캠핑카 Config 관련
     CONFIG_TYPE_NOT_FOUND to "부가시설 type을 찾을 수 없습니다.",

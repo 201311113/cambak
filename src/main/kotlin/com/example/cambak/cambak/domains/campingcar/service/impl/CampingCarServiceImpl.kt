@@ -26,7 +26,9 @@ class CampingCarServiceImpl(
         val context = SecurityContextHolder.getContext()
         println(context.authentication.name)
         val user = repo.userRepository.findByEmailAndActive(context.authentication.name)
-            ?:CampingCarDto.EnrollCampingCarRes(USER_NOT_FOUND)
+            ?: return CampingCarDto.EnrollCampingCarRes(USER_NOT_FOUND)
+
+        if(!user.isVendor) return CampingCarDto.EnrollCampingCarRes(USER_IS_NOT_VENDOR)
 
 
         val mobileNoParsed: String
@@ -41,12 +43,12 @@ class CampingCarServiceImpl(
         }catch (e: Exception){
             return CampingCarDto.EnrollCampingCarRes(RENTAL_TIME_INVALID)
         }
-        //TODO:정규식 관련 개발블로깅
+
 
 
 
         val newCampingCar = CampingCar(
-            user = user as User,
+            user = user ,
             productName = req.productName,
             oneLineDescription = req.oneLineDescription,
             description = req.description,
@@ -73,9 +75,10 @@ class CampingCarServiceImpl(
             discountPercentByThreeDays = req.discountPercentByThreeDays,
             possibleRentalDaysMin = req.possibleRentalDaysMin,
             possibleRentalDaysMax = req.possibleRentalDaysMax,
-            //TODO:season
-            //TODO:surcharge
-            //TODO:add options
+            //TODO:season config
+            //TODO:basic config
+            //TODO:surcharge config
+            //TODO:add options config
         )
         try{
             if(!req.basicConfigList.isNullOrEmpty()) validateBasicConfig(req.basicConfigList!!)
