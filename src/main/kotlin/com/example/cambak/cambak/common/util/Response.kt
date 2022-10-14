@@ -10,7 +10,6 @@ open class Response(
     )
 
 }
-
 const val OK = 0
 const val UNKNOWN_ERROR = -1
 
@@ -20,9 +19,14 @@ const val EMAIL_ALREADY_EXISTED = -1001
 const val PASSWORD_NOT_MATCHED = -1002
 const val USER_NOT_FOUND = -1003
 const val USER_IS_NOT_VENDOR = -1004
+const val USER_IS_INCONSISTENT = -1005
 
 //캠핑카 관련
 const val CAMPING_CAR_NOT_FOUND = -2000
+const val USER_IS_INCONSISTENT_WITH_CAMPINGCAR_OWNER = -2001
+
+//캠핑카 Review 관련
+const val CAMPING_CAR_REVIEW_NOT_FOUND = -3001
 
 //캠핑카 Config 관련
 const val CONFIG_TYPE_NOT_FOUND = -9000
@@ -30,6 +34,7 @@ const val ALREADY_CONFIG_KEY_EXIST = -9001
 const val MOBILE_NO_INVALID = -9002
 const val RENTAL_TIME_INVALID = -9003
 const val BASIC_CONFIG_INVALID = -9004
+
 
 val msgMap = mapOf(
     OK to "성공",
@@ -40,9 +45,14 @@ val msgMap = mapOf(
     PASSWORD_NOT_MATCHED to "비밀번호가 일치하지 않습니다.",
     USER_NOT_FOUND to "사용자를 찾을 수 없습니다.",
     USER_IS_NOT_VENDOR to "판매자 등록이되지 않은 유저입니다.",
+    USER_IS_INCONSISTENT to "사용자가 불일치 합니다.",
 
     //캠핑카 관련
     CAMPING_CAR_NOT_FOUND to "캠핑카를 찾을 수 없습니다.",
+    USER_IS_INCONSISTENT_WITH_CAMPINGCAR_OWNER to "캠핑카 사용자와 수정하려는 사용자가 불일치 합니다.",
+
+    //캠핑카 Review 관련
+    CAMPING_CAR_REVIEW_NOT_FOUND to "캠핑카 리뷰를 찾을 수 없습니다.",
 
     //캠핑카 Config 관련
     CONFIG_TYPE_NOT_FOUND to "부가시설 type을 찾을 수 없습니다.",

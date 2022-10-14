@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.util.regex.Pattern
 import javax.transaction.Transactional
 import kotlin.jvm.Throws
+import kotlin.streams.toList
 
 @Service
 class CampingCarServiceImpl(
@@ -127,6 +128,71 @@ class CampingCarServiceImpl(
         )
     }
 
+    override fun update(req: CampingCarDto.UpdateCampingCarReq): CampingCarDto.UpdateCampingCarRes {
+        //validate
+        val campingCar = repo.campingCarRepository.findByIdAndActive(req.id)
+            ?: return CampingCarDto.UpdateCampingCarRes(CAMPING_CAR_NOT_FOUND)
+
+        val context = SecurityContextHolder.getContext()
+
+        val user = repo.userRepository.findByEmailAndActive(context.authentication.name)
+            ?: return CampingCarDto.UpdateCampingCarRes(USER_NOT_FOUND)
+
+        if(campingCar.user.id != user.id) return CampingCarDto.UpdateCampingCarRes(USER_IS_INCONSISTENT_WITH_CAMPINGCAR_OWNER)
+
+        val mobileNoParsed: String
+        try {
+            mobileNoParsed = req.mobileNo?.let { CommonUtils.mobileNoParsing(it) }.toString()
+        }catch (e: Exception){
+            return CampingCarDto.UpdateCampingCarRes(MOBILE_NO_INVALID)
+        }
+        try{
+            req.rentalTime?.let { validateTime(it) }
+            req.returnTime?.let { validateTime(it) }
+        }catch (e: Exception){
+            return CampingCarDto.UpdateCampingCarRes(RENTAL_TIME_INVALID)
+        }
+
+
+
+        //update
+        req.productName?.let { campingCar.productName = req.productName!! }
+        req.oneLineDescription?.let { campingCar.oneLineDescription = req.oneLineDescription!! }
+        req.description?.let { campingCar.description = req.description!! }
+        req.mobileNo?.let { campingCar.mobileNo = req.mobileNo!! }
+        req.address?.let{campingCar.address  =req.address!!}
+        req.websiteAddress?.let { campingCar.websiteAddress = req.websiteAddress!! }
+        req.region?.let { campingCar.region = req.region!! }
+        req.isDeliveryPossible?.let { campingCar.isDeliveryPossible = req.isDeliveryPossible!! }
+        req.isPetPossible?.let { campingCar.isPetPossible = req.isPetPossible!! }
+        req.passengersNumber?.let { campingCar.passengersNumber = req.passengersNumber!! }
+        req.sleepPossibleNumber?.let { campingCar.sleepPossibleNumber = req.sleepPossibleNumber!! }
+        req.isParkingPossible?.let { campingCar.isParkingPossible = req.isParkingPossible!! }
+        req.isEquipmentProvide?.let { campingCar.isEquipmentProvide = req.isEquipmentProvide!! }
+        req.rentalTime?.let { campingCar.rentalTime = req.rentalTime!! }
+        req.returnTime?.let { campingCar.returnTime = req.returnTime!! }
+        req.driverAgeLimit?.let { campingCar.driverAgeLimit = req.driverAgeLimit!! }
+        req.driverLicense?.let { campingCar.driverLicense = req.driverLicense!! }
+        req.drivingExperience?.let { campingCar.drivingExperience = req.drivingExperience!! }
+        req.weekdayPrice?.let { campingCar.weekdayPrice = req.weekdayPrice!! }
+        req.weekendPrice?.let { campingCar.weekendPrice = req.weekendPrice!! }
+        req.weekdayPriceByOnNight?.let { campingCar.weekdayPriceByOnNight = req.weekdayPriceByOnNight!! }
+        req.weekendPriceByOnNight?.let { campingCar.weekendPriceByOnNight = req.weekendPriceByOnNight!! }
+        req.discountPercentByTwoDays?.let { campingCar.discountPercentByTwoDays = req.discountPercentByTwoDays!! }
+        req.discountPercentByThreeDays?.let { campingCar.discountPercentByThreeDays = req.discountPercentByThreeDays!! }
+        req.possibleRentalDaysMax?.let { campingCar.possibleRentalDaysMax = req.possibleRentalDaysMax!! }
+        req.possibleRentalDaysMin?.let { campingCar.possibleRentalDaysMin = req.possibleRentalDaysMin!! }
+
+        //TODO: [basic, season, surcharge, options] update logic
+
+        repo.campingCarRepository.save(campingCar)
+
+        return CampingCarDto.UpdateCampingCarRes(
+            OK,
+            campingCar.id
+            )
+    }
+
     override fun uploadImages(
         campingCarId: String, images: List<MultipartFile>
     ): CampingCarDto.CampingCarImageRes {
@@ -149,22 +215,58 @@ class CampingCarServiceImpl(
     ): CampingCarDto.GetCampingCarListRes {
         //TODO: 기획 - 어떤거 가져올 지
 
+        //TODO: filtering
         val campingCarList = repo.campingCarRepository.findAll()
-            .stream()
-            .map {
-                CampingCarDto.GetCampingCarListRes.CampingCarInfo(
-                    id = it.id!!,
-                    productName = it.productName,
-                    description = it.description,
-                )
-            }
-            .toList()
+
 
         return CampingCarDto.GetCampingCarListRes(
             OK,
-            campingCarList
+            buildCampingCar(campingCarList),
+
         )
     }
+
+    private fun buildCampingCar(
+        campingCarList: List<CampingCar>
+    ):List<CampingCarDto.GetCampingCarListRes.CampingCarInfo>{
+
+        val buildCampingCarInfoList = campingCarList.stream().map {
+            CampingCarDto.GetCampingCarListRes.CampingCarInfo(
+                id = it.id!!,
+                productName = it.productName,
+                description = it.description,
+                basicConfigList = repo.campingCarConfigMappingRepository.findAllByCampingCar(it)
+                    ?.stream()
+                    !!.map {
+                        CampingCarDto.GetCampingCarListRes.CampingCarInfo.BasicConfig(
+                            configName = it.campingCarConfig.campingCarConfigName
+                        )
+                    }.toList(),
+                priceBySeasonList = repo.campingCarPriceBySeasonRepository.findAllByCampingCar(it)
+                    ?.stream()
+                    !!.map {
+                        CampingCarDto.GetCampingCarListRes.CampingCarInfo.PriceBySeason(
+                            startDay = it.startDay,
+                            endDay = it.endDay,
+                            weekDayPrice = it.weekDayPrice,
+                            weekendPrice = it.weekendPrice,
+                        )
+                    }.toList(),
+                priceBySurcharge = repo.campingCarPriceBySurchargeRepository.findAllByCampingCar(it)
+                    ?.stream()
+                    !!.map {
+                        CampingCarDto.GetCampingCarListRes.CampingCarInfo.PriceBySurcharge(
+                            serviceName = it.serviceName,
+                            payMethod = it.payMethod,
+                            price = it.price,
+                        )
+                    }.toList()
+            )
+        }.toList()
+        
+        return buildCampingCarInfoList
+    }
+
 
     override fun getDetail(campingCarId: String): CampingCarDto.GetCampingCarDetailRes {
         val campingCar = repo.campingCarRepository.findByIdAndActive(campingCarId)

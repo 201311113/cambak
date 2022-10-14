@@ -14,7 +14,7 @@ class CampingCarAdditionalOptions (
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "camping_car_id", nullable = false)
     val campingCar: CampingCar,
-    val optionName: String,
-    val price: Long
+    var optionName: String,
+    var price: Long
 
 ):BaseEntity()

@@ -9,6 +9,10 @@ interface CampingCarService {
         req: CampingCarDto.EnrollCampingCarReq
     ):CampingCarDto.EnrollCampingCarRes
 
+    fun update(
+        req: CampingCarDto.UpdateCampingCarReq
+    ):CampingCarDto.UpdateCampingCarRes
+
     fun uploadImages(
         campingCarId: String,
         images: List<MultipartFile>

@@ -38,6 +38,23 @@ class CampingCarController {
             return CampingCarDto.EnrollCampingCarRes(e.code)
         }
     }
+    @ApiOperation(
+        value = "캠핑카 정보 수정",
+        notes = """
+            code 0 : 성공
+            code -1: 알 수 없는 오류
+        """
+    )
+    @PutMapping("/update")
+    fun update(
+        @RequestBody req: CampingCarDto.UpdateCampingCarReq
+    ): CampingCarDto.UpdateCampingCarRes{
+        try {
+            return serviceProvider.campingcarService.update(req)
+        }catch (e: BadRequestException){
+            return CampingCarDto.UpdateCampingCarRes(e.code)
+        }
+    }
 
     @ApiOperation(
         value = "캠핑카 이미지 등록 및 수정",
@@ -54,7 +71,6 @@ class CampingCarController {
     fun enrollImages(
         @RequestPart campingCarId: String,
         imageReq: List<MultipartFile>
-
     ):CampingCarDto.CampingCarImageRes{
         return serviceProvider.campingcarService.uploadImages(campingCarId,imageReq)
     }

@@ -15,8 +15,8 @@ class CampingCarPriceBySeason (
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "camping_car_id", nullable = false)
     val campingCar: CampingCar,
-    val startDay: String,
-    val endDay: String,
-    val weekDayPrice: Long,
-    val weekendPrice: Long
+    var startDay: String,
+    var endDay: String,
+    var weekDayPrice: Long,
+    var weekendPrice: Long
 ):BaseEntity()

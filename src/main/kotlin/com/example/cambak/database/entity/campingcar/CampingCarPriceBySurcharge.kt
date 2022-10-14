@@ -1,6 +1,7 @@
 package com.example.cambak.database.entity.campingcar
 
 import com.example.cambak.cambak.domains.campingcar.model.CampingCarDto
+import com.example.cambak.cambak.domains.campingcar.model.PayMethod
 import com.example.cambak.database.BaseEntity
 import com.example.cambak.database.entity.CampingCar
 import io.swagger.annotations.ApiModelProperty
@@ -15,6 +16,6 @@ class CampingCarPriceBySurcharge (
     val campingCar: CampingCar,
     var serviceName: String,
     @Enumerated(value = EnumType.STRING)
-    var payMethod: CampingCarDto.EnrollCampingCarReq.PriceBySurcharge.PayMethod,
+    var payMethod: PayMethod,
     var price: Long
 ):BaseEntity()
