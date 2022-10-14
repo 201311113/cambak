@@ -33,15 +33,29 @@ class CampingCarReviewDto {
 
     )
     class GetReviewListRes(
-        code: Int
-    ):Response(code)
+        code: Int,
+        var reviewList: List<ReviewInfo> ?= null
+    ):Response(code){
+        class ReviewInfo(
+            var id: String,
+            var title: String,
+            var content: String
+        )
+    }
     //리뷰 상세조회
     class GetReviewDetailReq(
 
     )
     class GetReviewDetailRes(
-        code: Int
-    ):Response(code)
+        code: Int,
+        var reviewDetail: ReviewDetail ?= null
+    ):Response(code){
+        class ReviewDetail(
+            var id: String,
+            var title: String,
+            var content: String
+        )
+    }
 
     //리뷰 삭제
     class DeleteReviewReq(

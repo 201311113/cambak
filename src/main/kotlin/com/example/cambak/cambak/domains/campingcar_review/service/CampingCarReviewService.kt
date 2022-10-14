@@ -10,4 +10,12 @@ interface CampingCarReviewService {
     fun update(
         req: CampingCarReviewDto.UpdateReviewReq
     ):CampingCarReviewDto.UpdateReviewRes
+
+    fun getReviewList(
+
+    ):CampingCarReviewDto.GetReviewListRes
+
+    fun getReviewDetail(
+        reviewId: String
+    ):CampingCarReviewDto.GetReviewDetailRes
 }

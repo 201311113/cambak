@@ -70,8 +70,8 @@ class CampingCarReviewController {
     @GetMapping("/list")
     fun getReviewList(
 
-    ){
-
+    ): CampingCarReviewDto.GetReviewListRes{
+        return serviceProvider.campingCarReviewService.getReviewList()
     }
 
 
@@ -85,7 +85,7 @@ class CampingCarReviewController {
     @GetMapping("/{reviewId}")
     fun getReviewDetail(
         @PathVariable reviewId: String
-    ){
-
+    ): CampingCarReviewDto.GetReviewDetailRes{
+        return serviceProvider.campingCarReviewService.getReviewDetail(reviewId)
     }
 }

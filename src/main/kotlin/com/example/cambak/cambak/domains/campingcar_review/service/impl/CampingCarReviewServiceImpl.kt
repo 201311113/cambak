@@ -55,4 +55,40 @@ class CampingCarReviewServiceImpl (
         )
     }
 
+    override fun getReviewList(): CampingCarReviewDto.GetReviewListRes {
+        val reviewList = repo.campingCarReviewRepository.findAllByActive()
+            ?.stream()?.map {
+                CampingCarReviewDto.GetReviewListRes.ReviewInfo(
+                    id = it.id!!,
+                    title = it.title,
+                    content = it.content
+                )
+            }?.toList()
+        return CampingCarReviewDto.GetReviewListRes(
+            OK,
+            reviewList
+        )
+    }
+
+    override fun getReviewDetail(
+        reviewId: String
+    ): CampingCarReviewDto.GetReviewDetailRes {
+        val review = repo.campingCarReviewRepository.findByIdAndActive(reviewId)
+            ?: return CampingCarReviewDto.GetReviewDetailRes(CAMPING_CAR_REVIEW_NOT_FOUND)
+
+        return CampingCarReviewDto.GetReviewDetailRes(
+            OK,
+            buildReviewDetail(review)
+        )
+    }
+    private fun buildReviewDetail(
+        review: CampingCarReview
+    ): CampingCarReviewDto.GetReviewDetailRes.ReviewDetail{
+        return CampingCarReviewDto.GetReviewDetailRes.ReviewDetail(
+            id = review.id!!,
+            title = review.title,
+            content = review.content
+        )
+    }
+
 }
