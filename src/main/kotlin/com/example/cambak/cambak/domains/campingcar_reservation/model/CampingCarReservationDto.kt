@@ -34,16 +34,35 @@ class CampingCarReservationDto {
 
     )
     class GetReservationListRes(
-        code:Int
-    ):Response(code)
+        code:Int,
+        var reservationList: List<ReservationInfo> ?= null
+    ):Response(code){
+        class ReservationInfo(
+            var id: String,
+            var rentalTime: String,
+            var returnTime: String,
+            var basicConfigList: List<String>,
+            var status: ReservationStatus,
+
+            )
+    }
 
     //get detail
     class GetReservationDetailReq(
 
     )
     class GetReservationDetailRes(
-        code:Int
-    ):Response(code)
+        code:Int,
+        var reservationDetail: ReservationDetail ?= null
+    ):Response(code){
+        class ReservationDetail(
+            var id: String,
+            var rentalTime: String,
+            var returnTime: String,
+            var basicConfigList: List<String>,
+            var status: ReservationStatus,
+        )
+    }
 
     //cancel
     class CancelReservationReq(

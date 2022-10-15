@@ -3,8 +3,6 @@ package com.example.cambak.cambak.domains.campingcar_reservation.service.impl
 import com.example.cambak.cambak.common.util.*
 import com.example.cambak.cambak.domains.campingcar_reservation.model.CampingCarReservationDto
 import com.example.cambak.cambak.domains.campingcar_reservation.service.CampingCarReservationService
-import com.example.cambak.cambak.domains.campingcar_review.model.CampingCarReviewDto
-import com.example.cambak.database.entity.CampingCar
 import com.example.cambak.database.entity.campingcar.reservation.CampingCarReservation
 import com.example.cambak.database.entity.campingcar.reservation.ReservationStatus
 import org.springframework.security.core.context.SecurityContextHolder
@@ -30,7 +28,7 @@ class CampingCarReservationServiceImpl(
             campingCar = campingCar,
             rentalTime = req.rentalTime,
             returnTime = req.returnTime,
-            basicConfigList = buildBasicConfig(req.basicConfigList),
+            basicConfigList = buildBasicConfigToString(req.basicConfigList),
             status = ReservationStatus.INIT,
         )
 
@@ -42,15 +40,7 @@ class CampingCarReservationServiceImpl(
         )
     }
 
-    private fun buildBasicConfig(
-        basicConfigList: List<String>,
-//        campingCarConfigList: List<String>//campingcar가 선택된 config list(ccc_maping) 가져오기
-    ):String{
-        //TODO: validate basicConfig
-//        val configList = repo.campingCarConfigRepository.findAllByConfigType("basic")
 
-        return basicConfigList.joinToString(",")
-    }
 
     override fun update(req: CampingCarReservationDto.UpdateReservationReq): CampingCarReservationDto.UpdateReservationRes {
 
@@ -67,7 +57,7 @@ class CampingCarReservationServiceImpl(
         req.rentalTime?.let { reservation.rentalTime = req.rentalTime!! }
         req.returnTime?.let { reservation.returnTime = req.returnTime!! }
         req.status?.let { reservation.status = req.status!! }
-        req.basicConfigList?.let { reservation.basicConfigList = buildBasicConfig(req.basicConfigList!!) }
+        req.basicConfigList?.let { reservation.basicConfigList = buildBasicConfigToString(req.basicConfigList!!) }
 
         repo.campingCarReservationRepository.save(reservation)
 
@@ -78,11 +68,50 @@ class CampingCarReservationServiceImpl(
     }
 
     override fun getList(): CampingCarReservationDto.GetReservationListRes {
-        TODO("Not yet implemented")
+        val reservationList = repo.campingCarReservationRepository.findAllByActive()
+            ?: return CampingCarReservationDto.GetReservationListRes(CAMPING_CAR_RESERVATION_NOT_FOUND)
+
+        return CampingCarReservationDto.GetReservationListRes(
+            OK,
+            buildReservationList(reservationList)
+        )
+    }
+    private fun buildReservationList(
+        reservationList: List<CampingCarReservation>
+    ):List<CampingCarReservationDto.GetReservationListRes.ReservationInfo>{
+        return reservationList.stream().map {
+            CampingCarReservationDto.GetReservationListRes.ReservationInfo(
+                id = it.id!!,
+                rentalTime = it.rentalTime,
+                returnTime = it.returnTime,
+                basicConfigList = buildBasicConfigToList(it.basicConfigList),
+                status = it.status,
+            )
+        }.toList()
     }
 
-    override fun getDetail(): CampingCarReservationDto.GetReservationDetailRes {
-        TODO("Not yet implemented")
+    override fun getDetail(
+        reservationId: String
+    ): CampingCarReservationDto.GetReservationDetailRes {
+        val reservation = repo.campingCarReservationRepository.findByIdAndActive(reservationId)
+            ?: return CampingCarReservationDto.GetReservationDetailRes(CAMPING_CAR_RESERVATION_NOT_FOUND)
+
+        return CampingCarReservationDto.GetReservationDetailRes(
+            OK,
+            buildReservationDetail(reservation)
+        )
+    }
+
+    private fun buildReservationDetail(
+        reservation: CampingCarReservation
+    ):CampingCarReservationDto.GetReservationDetailRes.ReservationDetail{
+        return CampingCarReservationDto.GetReservationDetailRes.ReservationDetail(
+            id = reservation.id!!,
+            rentalTime = reservation.rentalTime,
+            returnTime = reservation.returnTime,
+            basicConfigList = buildBasicConfigToList(reservation.basicConfigList),
+            status = reservation.status
+        )
     }
 
     override fun cancel(): CampingCarReservationDto.CancelReservationRes {
@@ -91,6 +120,22 @@ class CampingCarReservationServiceImpl(
 
     override fun delete(): CampingCarReservationDto.DeleteReservationRes {
         TODO("Not yet implemented")
+    }
+
+    private fun buildBasicConfigToString(
+        basicConfigList: List<String>,
+//        campingCarConfigList: List<String>//campingcar가 선택된 config list(ccc_maping) 가져오기
+    ):String{
+        //TODO: validate basicConfig
+//        val configList = repo.campingCarConfigRepository.findAllByConfigType("basic")
+
+        return basicConfigList.joinToString(",")
+    }
+
+    private fun buildBasicConfigToList(
+        basicConfig: String,
+    ): List<String> {
+        return basicConfig.split(",").toList()
     }
 
 }

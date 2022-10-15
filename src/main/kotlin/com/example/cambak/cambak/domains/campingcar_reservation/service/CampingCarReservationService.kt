@@ -16,7 +16,7 @@ interface CampingCarReservationService {
     ): CampingCarReservationDto.GetReservationListRes
 
     fun getDetail(
-
+        reservationId: String
     ): CampingCarReservationDto.GetReservationDetailRes
 
     fun cancel(

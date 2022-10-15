@@ -102,7 +102,7 @@ class CampingCarReservationController {
         @PathVariable reservationId: String
     ):CampingCarReservationDto.GetReservationDetailRes{
         try {
-            return serviceProvider.campingCarReservationService.getDetail()
+            return serviceProvider.campingCarReservationService.getDetail(reservationId)
         }catch (e: BadRequestException){
             return CampingCarReservationDto.GetReservationDetailRes(e.code)
         }
