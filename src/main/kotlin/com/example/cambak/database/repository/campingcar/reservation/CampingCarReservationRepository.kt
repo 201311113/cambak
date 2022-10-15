@@ -4,4 +4,5 @@ import com.example.cambak.database.entity.campingcar.reservation.CampingCarReser
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CampingCarReservationRepository: JpaRepository<CampingCarReservation, String> {
+    fun findByIdAndActive(id: String, active: Boolean = true): CampingCarReservation?
 }

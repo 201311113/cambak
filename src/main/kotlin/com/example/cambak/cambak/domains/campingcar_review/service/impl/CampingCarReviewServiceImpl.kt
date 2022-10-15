@@ -44,6 +44,8 @@ class CampingCarReviewServiceImpl (
         val review = repo.campingCarReviewRepository.findByIdAndActive(req.reviewId)
             ?: return CampingCarReviewDto.UpdateReviewRes(CAMPING_CAR_REVIEW_NOT_FOUND)
 
+        //TODO: ** validate userid != review.user.id
+
         req.title?.let { review.title = req.title!! }
         req.content?.let { review.content = req.content!! }
 
