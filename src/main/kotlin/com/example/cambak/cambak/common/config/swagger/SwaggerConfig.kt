@@ -7,18 +7,19 @@ import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.builders.ResponseBuilder
-import springfox.documentation.service.ApiInfo
-import springfox.documentation.service.Response
-import springfox.documentation.service.Server
+import springfox.documentation.service.*
 import springfox.documentation.spi.DocumentationType
+import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
+import java.util.Arrays
+
 
 @Configuration
-open class SwaggerConfig(
+class SwaggerConfig(
     val swaggerProps: SwaggerProps
 ) {
     @Bean
-    open fun api(): Docket {
+    fun api(): Docket {
         val servers = swaggerProps.servers.map{
             Server(
                 it.description,
@@ -37,6 +38,8 @@ open class SwaggerConfig(
                     servers.size
                 ).toTypedArray()
             )
+            .securityContexts(listOf(securityContext()))
+            .securitySchemes(listOf(apiKey()))
             .useDefaultResponseMessages(false)
             .select()
             .apis(RequestHandlerSelectors.any())
@@ -47,6 +50,23 @@ open class SwaggerConfig(
             .globalResponses(HttpMethod.DELETE, responses())
             .globalResponses(HttpMethod.POST, responses())
             .globalResponses(HttpMethod.PUT, responses())
+    }
+
+    private fun securityContext(): SecurityContext? {
+        return SecurityContext.builder()
+            .securityReferences(defaultAuth())
+            .build()
+    }
+
+    private fun defaultAuth(): List<SecurityReference?> {
+        val authorizationScope = AuthorizationScope("global", "accessEverything")
+        val authorizationScopes: Array<AuthorizationScope?> = arrayOfNulls<AuthorizationScope>(1)
+        authorizationScopes[0] = authorizationScope
+        return listOf(SecurityReference("Authorization", authorizationScopes))
+    }
+
+    private fun apiKey(): ApiKey {
+        return ApiKey("Authorization", "Authorization", "header")
     }
 
     private fun responses(): List<Response> {

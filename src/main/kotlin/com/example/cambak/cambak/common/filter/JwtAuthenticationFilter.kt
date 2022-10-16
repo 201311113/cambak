@@ -31,12 +31,13 @@ class JwtAuthenticationFilter (
                 val auth: Authentication = jwtUtils.getAuthentication(token)
                 SecurityContextHolder.getContext().authentication = auth
                 if (!auth.isAuthenticated) throw JwtException("토큰이 올바르지 않습니다")
+
             }
             else {
                 request.setAttribute("error", "401")
             }
         }catch (e: Exception){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED)
+            request.setAttribute("error", "401")
         }
         filterChain.doFilter(request,response)
     }
