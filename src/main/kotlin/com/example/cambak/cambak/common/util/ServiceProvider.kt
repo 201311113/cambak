@@ -4,6 +4,8 @@ import com.example.cambak.cambak.domains.auth.service.AuthService
 import com.example.cambak.cambak.domains.campingcar.service.CampingCarService
 import com.example.cambak.cambak.domains.campingcar_reservation.service.CampingCarReservationService
 import com.example.cambak.cambak.domains.campingcar_review.service.CampingCarReviewService
+import com.example.cambak.cambak.domains.campsite.service.CampsiteService
+import com.example.cambak.cambak.domains.place.service.PlaceService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -21,5 +23,11 @@ class ServiceProvider {
 
     @Autowired
     lateinit var campingCarReservationService: CampingCarReservationService
+
+    @Autowired
+    lateinit var placeService: PlaceService
+
+    @Autowired
+    lateinit var campsiteService: CampsiteService
 
 }

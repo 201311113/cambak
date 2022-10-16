@@ -33,7 +33,7 @@ class SecurityConfig (
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/auth/token","/auth/register","/dev/**","/camping-car/configs",
+                .antMatchers("/auth/token","/auth/register","/dev/**",
                     "/swagger-ui/**","/swagger-resources/**","/v3/api-docs/**",)
                 .permitAll()
                 .antMatchers("/**")

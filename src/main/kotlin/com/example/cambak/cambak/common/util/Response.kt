@@ -33,6 +33,12 @@ const val USER_IS_INCONSISTENT_WITH_CAMPING_CAR_REVIEW_OWNER = -3001
 const val CAMPING_CAR_RESERVATION_NOT_FOUND = -4000
 const val USER_IS_INCONSISTENT_WITH_CAMPING_CAR_RESERVATION_OWNER = -4001
 
+//장소 관련
+const val PLACE_NOT_FOUND = - 5000
+
+//캠핑장 관련
+const val CAMPSITE_NOT_FOUND = -6000
+
 //캠핑카 Config 관련
 const val CONFIG_TYPE_NOT_FOUND = -9000
 const val ALREADY_CONFIG_KEY_EXIST = -9001
@@ -63,6 +69,13 @@ val msgMap = mapOf(
     //캠핑카 Reservation 관련
     CAMPING_CAR_RESERVATION_NOT_FOUND to "캠핑카 예약을 찾을 수 없습니다.",
     USER_IS_INCONSISTENT_WITH_CAMPING_CAR_RESERVATION_OWNER to "캠핑카 예약자와 현재 접근하는 사용자가 불일치 합니다.",
+
+    //장소 관련
+    PLACE_NOT_FOUND to "장소를 찾을 수 없습니다.",
+
+    //캠핑장 관련
+    CAMPSITE_NOT_FOUND to "캠핑장을 찾을 수 없습니다.",
+
     //캠핑카 Config 관련
     CONFIG_TYPE_NOT_FOUND to "부가시설 type을 찾을 수 없습니다.",
     ALREADY_CONFIG_KEY_EXIST to "이미 존재하는 부가시설 이름 입니다.",
