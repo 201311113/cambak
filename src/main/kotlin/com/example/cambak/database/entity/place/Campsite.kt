@@ -2,10 +2,12 @@ package com.example.cambak.database.entity.place
 
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
+import javax.persistence.Table
 
 @Entity
 @DiscriminatorValue(value = "campsite")
-class CampSite (
+@Table(name = "campsite")
+class Campsite (
     name: String,
     address: String,
     addressDetail: String,

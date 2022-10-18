@@ -1,8 +1,9 @@
 package com.example.cambak.database.repository.place
 
-import com.example.cambak.database.entity.place.CampSite
+import com.example.cambak.database.entity.place.Campsite
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface CampsiteRepository: JpaRepository<CampSite, String> {
-    fun findByIdAndActive(id: String, active: Boolean = true): CampSite
+interface CampsiteRepository: JpaRepository<Campsite, String> {
+    fun findByIdAndActive(id: String, active: Boolean = true): Campsite?
+    fun findAllByActive(active: Boolean = true): List<Campsite>?
 }
