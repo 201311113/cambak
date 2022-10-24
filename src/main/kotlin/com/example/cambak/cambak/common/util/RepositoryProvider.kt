@@ -1,11 +1,11 @@
 package com.example.cambak.cambak.common.util
 
 import com.example.cambak.database.repository.UserRepository
+import com.example.cambak.database.repository.UserTempRepository
 import com.example.cambak.database.repository.campingcar.*
 import com.example.cambak.database.repository.campingcar.reservation.CampingCarReservationRepository
 import com.example.cambak.database.repository.campingcar.review.CampingCarReviewRepository
-import com.example.cambak.database.repository.place.CampsiteRepository
-import com.example.cambak.database.repository.place.PlaceRepository
+import com.example.cambak.database.repository.place.PlaceTempRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -40,9 +40,10 @@ class RepositoryProvider {
     lateinit var campingCarReviewRepository: CampingCarReviewRepository
 
     @Autowired
-    lateinit var placeRepository: PlaceRepository
+    lateinit var placeRepository: PlaceTempRepository
 
     @Autowired
-    lateinit var campsiteRepository: CampsiteRepository
+    lateinit var userTempRepository: UserTempRepository
+
 
 }
