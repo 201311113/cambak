@@ -59,47 +59,47 @@ class PlaceController {
 //            return PlaceDto.UpdatePlaceRes(e.code)
 //        }
 //    }
-//
-//
+
+
+    @ApiOperation(
+        value = "장소 리스트 업 ",
+        notes = """
+            code 0 : 성공
+            code -1: 알 수 없는 오류
+        """
+    )
+    @GetMapping("/list")
+    fun getList(
+
+    ): PlaceDto.GetPlaceListRes{
+        try {
+            return serviceProvider.placeService.getList()
+        }catch (e: BadRequestException){
+            return PlaceDto.GetPlaceListRes(e.code)
+        }
+    }
+
+
+    @ApiOperation(
+        value = "장소 상세정보 조회",
+        notes = """
+            code 0 : 성공
+            code -1: 알 수 없는 오류
+        """
+    )
+    @GetMapping("/{placeId}")
+    fun getDetail(
+        @PathVariable placeId: String
+    ): PlaceDto.GetPlaceDetailRes{
+        try {
+            return serviceProvider.placeService.getDetail(placeId)
+        }catch (e: BadRequestException){
+            return PlaceDto.GetPlaceDetailRes(e.code)
+        }
+    }
+
 //    @ApiOperation(
-//        value = "장소 리스트 업 ",
-//        notes = """
-//            code 0 : 성공
-//            code -1: 알 수 없는 오류
-//        """
-//    )
-//    @GetMapping("/list")
-//    fun getList(
-//
-//    ): PlaceDto.GetPlaceListRes{
-//        try {
-//            return serviceProvider.placeService.getList()
-//        }catch (e: BadRequestException){
-//            return PlaceDto.GetPlaceListRes(e.code)
-//        }
-//    }
-//
-//
-//    @ApiOperation(
-//        value = "장소 상세정보 조회",
-//        notes = """
-//            code 0 : 성공
-//            code -1: 알 수 없는 오류
-//        """
-//    )
-//    @GetMapping("/{placeId}")
-//    fun getDetail(
-//        @PathVariable placeId: String
-//    ): PlaceDto.GetPlaceDetailRes{
-//        try {
-//            return serviceProvider.placeService.getDetail(placeId)
-//        }catch (e: BadRequestException){
-//            return PlaceDto.GetPlaceDetailRes(e.code)
-//        }
-//    }
-//
-//    @ApiOperation(
-//        value = "장소 상세정보 조회",
+//        value = "장소 삭제",
 //        notes = """
 //            code 0 : 성공
 //            code -1: 알 수 없는 오류

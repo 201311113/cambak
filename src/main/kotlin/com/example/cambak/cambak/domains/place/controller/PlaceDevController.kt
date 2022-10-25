@@ -2,6 +2,7 @@ package com.example.cambak.cambak.domains.place.controller
 
 import com.example.cambak.cambak.common.util.Response
 import com.example.cambak.cambak.domains.place.service.PlaceDevService
+import com.example.cambak.database.entity.place.Place
 import com.example.cambak.database.entity.place.PlaceTemp
 import io.swagger.annotations.Api
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,7 @@ class PlaceDevController {
     @GetMapping("")
     fun getPlace(
 
-    ): List<PlaceTemp>{
+    ): List<Place>{
         return placeDevService.migration()
     }
 

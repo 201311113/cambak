@@ -5,6 +5,7 @@ import com.example.cambak.database.repository.UserTempRepository
 import com.example.cambak.database.repository.campingcar.*
 import com.example.cambak.database.repository.campingcar.reservation.CampingCarReservationRepository
 import com.example.cambak.database.repository.campingcar.review.CampingCarReviewRepository
+import com.example.cambak.database.repository.place.PlaceRepository
 import com.example.cambak.database.repository.place.PlaceTempRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -40,10 +41,13 @@ class RepositoryProvider {
     lateinit var campingCarReviewRepository: CampingCarReviewRepository
 
     @Autowired
-    lateinit var placeRepository: PlaceTempRepository
+    lateinit var placeRepository: PlaceRepository
 
     @Autowired
     lateinit var userTempRepository: UserTempRepository
+
+    @Autowired
+    lateinit var placeTempRepository: PlaceTempRepository
 
 
 }

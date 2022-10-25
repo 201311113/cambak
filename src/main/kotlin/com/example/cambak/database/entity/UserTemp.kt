@@ -1,8 +1,10 @@
 package com.example.cambak.database.entity
 
 import java.time.LocalDateTime
+import javax.persistence.Entity
 import javax.persistence.Id
 
+@Entity
 class UserTemp (
     @Id
     var id: Long,

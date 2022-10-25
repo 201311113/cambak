@@ -1,15 +1,12 @@
 package com.example.cambak.cambak.domains.place.model
 
 import com.example.cambak.cambak.common.util.Response
+import com.example.cambak.database.entity.place.Region
 
 class PlaceDto {
     //create
     class CreatePlaceReq(
-        var name: String,
-        var address: String,
-        var addressDetail: String,
-        var lat: Double,
-        var lng: Double,
+        //TODO: 요구사항 있을 시 개발
     )
     class CreatePlaceRes(
         code: Int,
@@ -18,12 +15,7 @@ class PlaceDto {
 
     //update
     class UpdatePlaceReq(
-        var placeId: String,
-        var name: String?,
-        var address: String?,
-        var addressDetail: String?,
-        var lat: Double?,
-        var lng: Double?,
+        //TODO: 요구사항 있을 시 개발
     )
     class UpdatePlaceRes(
         code: Int,
@@ -39,10 +31,10 @@ class PlaceDto {
         var placeList: List<PlaceInfo> ?= null
     ):Response(code){
         class PlaceInfo(
-            var placeId: String,
+            //TODO: FIX된 요구사항아님
+            var id: String,
             var name: String,
             var address: String,
-            var addressDetail: String,
             var lat: Double,
             var lng: Double,
         )
@@ -57,12 +49,27 @@ class PlaceDto {
         var placeDetail: PlaceDetail ?= null
     ):Response(code){
         class PlaceDetail(
-            var placeId: String,
+            var id: String,
             var name: String,
             var address: String,
-            var addressDetail: String,
-            var lat: Double,
-            var lng: Double,
+            var oldAddress: String,
+            var bio: String?,
+            var isClosed: Boolean,
+            var lat: Double?,
+            var lng: Double?,
+            var likes: Long,
+            var price: Long?,
+            var priceDescription: String?,
+            var contact: String?,
+            var websiteUrl: String?,
+            var score: Long,
+            var view: Long,
+            var themeId: String?,
+            var region: Region?,
+            var mainImageId: String?,
+            var search: String?,
+            var filter: String,
+            var isCampsite: Boolean,
         )
     }
 

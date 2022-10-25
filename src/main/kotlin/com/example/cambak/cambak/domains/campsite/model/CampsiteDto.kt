@@ -1,7 +1,6 @@
 package com.example.cambak.cambak.domains.campsite.model
 
 import com.example.cambak.cambak.common.util.Response
-import com.example.cambak.database.entity.place.Campsite
 
 class CampsiteDto {
     //create

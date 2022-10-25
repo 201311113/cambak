@@ -5,18 +5,18 @@ import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
 
-@Entity
-@DiscriminatorValue(value = "campsite")
-@Table(name = "campsite")
-class Campsite (
-    @Id
-    var id:Long,
-    name: String,
-    address: String,
-    addressDetail: String,
-    lat: Double,
-    lng: Double,
-)
+//@Entity
+//@DiscriminatorValue(value = "campsite")
+//@Table(name = "campsite")
+//class Campsite (
+//    @Id
+//    var id:Long,
+//    name: String,
+//    address: String,
+//    addressDetail: String,
+//    lat: Double,
+//    lng: Double,
+//)
 //): Place(
 //    name = name,
 //    address = address,
