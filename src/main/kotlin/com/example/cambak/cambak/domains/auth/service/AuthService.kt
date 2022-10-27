@@ -3,7 +3,7 @@ package com.example.cambak.cambak.domains.auth.service
 import com.example.cambak.cambak.domains.auth.model.AuthDto
 
 interface AuthService {
-    fun signUp(
+    fun signUpEmail(
         req: AuthDto.SignUpReq
     ): AuthDto.SignUpRes
 

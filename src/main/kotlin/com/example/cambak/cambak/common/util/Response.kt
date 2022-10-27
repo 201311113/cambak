@@ -20,6 +20,8 @@ const val PASSWORD_NOT_MATCHED = -1002
 const val USER_NOT_FOUND = -1003
 const val USER_IS_NOT_VENDOR = -1004
 const val USER_IS_INCONSISTENT = -1005
+const val PASSWORD_NOT_FOUND = -1006
+const val SNS_TOKEN_NOT_FOUND = -1007
 
 //캠핑카 관련
 const val CAMPING_CAR_NOT_FOUND = -2000
@@ -57,6 +59,8 @@ val msgMap = mapOf(
     USER_NOT_FOUND to "사용자를 찾을 수 없습니다.",
     USER_IS_NOT_VENDOR to "판매자 등록이되지 않은 유저입니다.",
     USER_IS_INCONSISTENT to "사용자가 불일치 합니다.",
+    PASSWORD_NOT_FOUND to "이메일 로그인 비밀번호가 null값입니다.",
+    SNS_TOKEN_NOT_FOUND to "SNS 로그인 토큰이 null값입니다.",
 
     //캠핑카 관련
     CAMPING_CAR_NOT_FOUND to "캠핑카를 찾을 수 없습니다.",

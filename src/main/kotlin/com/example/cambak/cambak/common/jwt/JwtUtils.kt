@@ -99,7 +99,7 @@ class JwtUtils (
         val authorities = getRoles(jwt)
 
         //db와 비교
-        if(!repo.userRepository.existsByEmail(userId)) throw Exception("토큰이 유효하지 않습니다.")
+        if(!repo.userRepository.existsByUserIdAndActive(userId)) throw Exception("토큰이 유효하지 않습니다.")
 
 
         return UsernamePasswordAuthenticationToken(userId, null, authorities)
