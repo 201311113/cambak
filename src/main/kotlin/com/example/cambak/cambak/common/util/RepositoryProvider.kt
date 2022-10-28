@@ -1,5 +1,6 @@
 package com.example.cambak.cambak.common.util
 
+import com.example.cambak.database.repository.ImageRepository
 import com.example.cambak.database.repository.UserRepository
 import com.example.cambak.database.repository.UserTempRepository
 import com.example.cambak.database.repository.campingcar.*
@@ -48,6 +49,9 @@ class RepositoryProvider {
 
     @Autowired
     lateinit var placeTempRepository: PlaceTempRepository
+
+    @Autowired
+    lateinit var campingCarImageRepository: CampingCarImageRepository
 
 
 }

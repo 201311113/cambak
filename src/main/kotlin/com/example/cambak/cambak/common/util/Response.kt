@@ -41,6 +41,11 @@ const val PLACE_NOT_FOUND = - 5000
 //캠핑장 관련
 const val CAMPSITE_NOT_FOUND = -6000
 
+//이미지 관련
+const val IMAGE_UPLOAD_FAIL = -7000
+const val IMAGE_DELETE_FAIL = -7001
+
+
 //캠핑카 Config 관련
 const val CONFIG_TYPE_NOT_FOUND = -9000
 const val ALREADY_CONFIG_KEY_EXIST = -9001
@@ -79,6 +84,10 @@ val msgMap = mapOf(
 
     //캠핑장 관련
     CAMPSITE_NOT_FOUND to "캠핑장을 찾을 수 없습니다.",
+
+    //이미지 관련
+    IMAGE_UPLOAD_FAIL to "이미지 업로드에 실패하였습니다.",
+    IMAGE_DELETE_FAIL to "이미지 삭제에 실패하였습니다.",
 
     //캠핑카 Config 관련
     CONFIG_TYPE_NOT_FOUND to "부가시설 type을 찾을 수 없습니다.",

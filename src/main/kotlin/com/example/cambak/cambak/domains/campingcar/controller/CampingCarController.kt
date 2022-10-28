@@ -64,15 +64,20 @@ class CampingCarController {
         """
     )
     @RequestMapping(
-        value = ["/report/picture"],
+        value = ["/register/picture"],
         method = [RequestMethod.POST],
         consumes = [MediaType.MULTIPART_FORM_DATA_VALUE]
     )
     fun enrollImages(
         @RequestPart campingCarId: String,
-        imageReq: List<MultipartFile>
+        imageReq: List<MultipartFile>?,
+        @RequestPart deleteImageIds: String?
     ):CampingCarDto.CampingCarImageRes{
-        return serviceProvider.campingcarService.uploadImages(campingCarId,imageReq)
+        try {
+            return serviceProvider.campingcarService.uploadImages(campingCarId,imageReq,deleteImageIds)
+        }catch (e: BadRequestException){
+            return CampingCarDto.CampingCarImageRes(e.code)
+        }
     }
 
     @ApiOperation(

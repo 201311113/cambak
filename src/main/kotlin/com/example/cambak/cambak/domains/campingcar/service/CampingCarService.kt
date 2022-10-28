@@ -15,7 +15,8 @@ interface CampingCarService {
 
     fun uploadImages(
         campingCarId: String,
-        images: List<MultipartFile>
+        images: List<MultipartFile>?,
+        deleteImageIds: String?
     ):CampingCarDto.CampingCarImageRes
 
     fun delete(

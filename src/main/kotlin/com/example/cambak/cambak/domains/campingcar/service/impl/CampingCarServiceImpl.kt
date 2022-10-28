@@ -6,10 +6,7 @@ import com.example.cambak.cambak.domains.campingcar.model.CampingCarFilterType
 import com.example.cambak.cambak.domains.campingcar.service.CampingCarService
 import com.example.cambak.database.entity.CampingCar
 import com.example.cambak.database.entity.User
-import com.example.cambak.database.entity.campingcar.CampingCarAdditionalOptions
-import com.example.cambak.database.entity.campingcar.CampingCarConfigMapping
-import com.example.cambak.database.entity.campingcar.CampingCarPriceBySeason
-import com.example.cambak.database.entity.campingcar.CampingCarPriceBySurcharge
+import com.example.cambak.database.entity.campingcar.*
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -21,6 +18,7 @@ import kotlin.streams.toList
 @Service
 class CampingCarServiceImpl(
     var repo: RepositoryProvider,
+    var awsS3Service: AmazonS3Service,
 ): CampingCarService {
 
     @Transactional
@@ -194,10 +192,71 @@ class CampingCarServiceImpl(
     }
 
     override fun uploadImages(
-        campingCarId: String, images: List<MultipartFile>
+        campingCarId: String,
+        images: List<MultipartFile>?,
+        deleteImageIds: String?
     ): CampingCarDto.CampingCarImageRes {
+        //validate
+
+        val context = SecurityContextHolder.getContext()
+        val user = repo.userRepository.findByEmailAndActive(context.authentication.name)
+            ?: return CampingCarDto.CampingCarImageRes(USER_NOT_FOUND)
+
+        val campingCar = repo.campingCarRepository.findByIdAndActive(campingCarId)
+            ?: return CampingCarDto.CampingCarImageRes(CAMPING_CAR_NOT_FOUND)
+
+        if(campingCar.user.id != user.id) return CampingCarDto.CampingCarImageRes(USER_IS_INCONSISTENT_WITH_CAMPINGCAR_OWNER)
+
+        val oldImageList = repo.campingCarImageRepository.findAllByAssociatedEntityId(campingCarId)
+
+        images?.let {
+            uploadImages(oldImageList,campingCarId,images)
+        }
+
+        deleteImageIds?.let {
+            deleteImages(deleteImageIds)
+        }
+
 
         return CampingCarDto.CampingCarImageRes(OK)
+    }
+    @Throws(BadRequestException::class)
+    private fun uploadImages(
+        oldImageList: List<CampingCarImage>?,
+        campingCarId: String,
+        images: List<MultipartFile>?
+    ){
+            repo.campingCarImageRepository.saveAll(
+                images!!.map {
+                    val id = CommonUtils.uuid()
+
+                    val s3ImageUrl = awsS3Service.uploadImageS3(
+                        it,
+                        id
+                    )
+                    CampingCarImage(
+                        url = s3ImageUrl,
+                        associatedEntityId = campingCarId
+                    )
+                }
+            )
+
+
+    }
+
+    @Throws(BadRequestException::class)
+    private fun deleteImages(
+        deleteImageIds: String?
+    ){
+        try {
+            val deleteImageList = deleteImageIds!!.split(",")
+
+            repo.campingCarImageRepository.deleteAllInIds(deleteImageList)
+            awsS3Service.deleteImagesS3(deleteImageList)
+        }catch (e: Exception){
+            throw BadRequestException(IMAGE_DELETE_FAIL)
+        }
+
     }
 
     override fun delete(campingCarId: String): CampingCarDto.DeleteCampingCarRes {

@@ -37,8 +37,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-noarg")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.mariadb.jdbc:mariadb-java-client")
-	//Aws s3 upload
+	//Aws s3 upload"
 	implementation("org.apache.commons:commons-lang3:3.0")
+	implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.1")
 
 	//JPA
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")

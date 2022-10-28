@@ -44,3 +44,19 @@ swagger:
 #      url: https://
 #    - description: Production server
 #      url: https://
+
+
+# ===============================
+# = S3
+# ===============================
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAU33ZJBGV7V5MM56K
+      secret-key: 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
+    s3:
+      bucket: cambak
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
