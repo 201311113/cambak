@@ -13,7 +13,7 @@ spring:
 # = JPA
 # ===============================
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
 #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect //DDL Issue 발생
@@ -55,7 +55,7 @@ cloud:
       access-key: AKIAU33ZJBGV7V5MM56K
       secret-key: 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
     s3:
-      bucket: cambak
+      bucket: cambak-v2
     region:
       static: ap-northeast-2
     stack:

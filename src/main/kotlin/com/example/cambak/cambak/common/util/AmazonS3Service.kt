@@ -25,7 +25,7 @@ class AmazonS3Service {
         fileIdList: List<String>
     ){
         fileIdList.forEach{
-            s3Config.getAmazonClient().deleteObject(bucket,it)
+            s3Config.getAmazonClient().deleteObject(bucket,it.split("com/")[1])
         }
     }
 

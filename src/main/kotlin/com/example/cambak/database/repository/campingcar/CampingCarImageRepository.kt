@@ -2,6 +2,7 @@ package com.example.cambak.database.repository.campingcar
 
 import com.example.cambak.database.entity.campingcar.CampingCarImage
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 
 interface CampingCarImageRepository: JpaRepository<CampingCarImage, String> {
@@ -12,5 +13,6 @@ interface CampingCarImageRepository: JpaRepository<CampingCarImage, String> {
             delete from CampingCarImage c where c.url in :deleteIdList
         """
     )
+    @Modifying
     fun deleteAllInIds(deleteIdList: List<String>)
 }

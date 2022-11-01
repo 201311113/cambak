@@ -191,6 +191,7 @@ class CampingCarServiceImpl(
             )
     }
 
+    @Transactional
     override fun uploadImages(
         campingCarId: String,
         images: List<MultipartFile>?,
@@ -226,13 +227,14 @@ class CampingCarServiceImpl(
         campingCarId: String,
         images: List<MultipartFile>?
     ){
+        try{
             repo.campingCarImageRepository.saveAll(
                 images!!.map {
                     val id = CommonUtils.uuid()
-
+                    println(id)
                     val s3ImageUrl = awsS3Service.uploadImageS3(
                         it,
-                        id
+                        "$id"
                     )
                     CampingCarImage(
                         url = s3ImageUrl,
@@ -240,6 +242,9 @@ class CampingCarServiceImpl(
                     )
                 }
             )
+        }catch (e: Exception){
+            throw BadRequestException(IMAGE_UPLOAD_FAIL)
+        }
 
 
     }
@@ -248,14 +253,14 @@ class CampingCarServiceImpl(
     private fun deleteImages(
         deleteImageIds: String?
     ){
-        try {
+//        try {
             val deleteImageList = deleteImageIds!!.split(",")
 
             repo.campingCarImageRepository.deleteAllInIds(deleteImageList)
             awsS3Service.deleteImagesS3(deleteImageList)
-        }catch (e: Exception){
-            throw BadRequestException(IMAGE_DELETE_FAIL)
-        }
+//        }catch (e: Exception){
+//            throw BadRequestException(IMAGE_DELETE_FAIL)
+//        }
 
     }
 
