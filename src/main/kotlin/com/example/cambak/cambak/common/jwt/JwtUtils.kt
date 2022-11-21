@@ -26,7 +26,7 @@ class JwtUtils (
 
 
     //TODO: 토큰유효 시간 설정 레거시 정하기
-    val ACCESS_TOKEN_EXPIRED = 30*60*1000L
+    val ACCESS_TOKEN_EXPIRED = 30*60*100000000L
     val REFRESH_TOKEN_EXPIRED = 30*60*48000L
 
     fun createAccessToken(

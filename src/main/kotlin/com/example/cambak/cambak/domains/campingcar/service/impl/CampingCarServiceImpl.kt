@@ -5,6 +5,7 @@ import com.example.cambak.cambak.domains.campingcar.model.CampingCarDto
 import com.example.cambak.cambak.domains.campingcar.model.CampingCarFilterType
 import com.example.cambak.cambak.domains.campingcar.service.CampingCarService
 import com.example.cambak.database.entity.CampingCar
+import com.example.cambak.database.entity.ImageType
 import com.example.cambak.database.entity.User
 import com.example.cambak.database.entity.campingcar.*
 import org.springframework.security.core.context.SecurityContextHolder
@@ -231,14 +232,15 @@ class CampingCarServiceImpl(
             repo.campingCarImageRepository.saveAll(
                 images!!.map {
                     val id = CommonUtils.uuid()
-                    println(id)
+
                     val s3ImageUrl = awsS3Service.uploadImageS3(
                         it,
                         "$id"
                     )
                     CampingCarImage(
                         url = s3ImageUrl,
-                        associatedEntityId = campingCarId
+                        associatedEntityId = campingCarId,
+                        type = ImageType.CAMPSITE_BASIC
                     )
                 }
             )

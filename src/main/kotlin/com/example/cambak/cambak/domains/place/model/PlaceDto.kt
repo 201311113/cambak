@@ -2,6 +2,7 @@ package com.example.cambak.cambak.domains.place.model
 
 import com.example.cambak.cambak.common.util.Response
 import com.example.cambak.database.entity.place.Region
+import io.swagger.annotations.ApiModelProperty
 
 class PlaceDto {
     //create
@@ -31,12 +32,23 @@ class PlaceDto {
         var placeList: List<PlaceInfo> ?= null
     ):Response(code){
         class PlaceInfo(
-            //TODO: FIX된 요구사항아님
+            @ApiModelProperty(name = "장소 id")
             var id: String,
+            @ApiModelProperty(name = "장소 이름")
             var name: String,
+            @ApiModelProperty(name = "장소 타입", value = "[CAMPSITE,CARPARK]")
+            var placeType: String,//캠핑장, 차박지
+            @ApiModelProperty(name = "장소 주소")
             var address: String,
+            @ApiModelProperty(name = "장소 위도")
             var lat: Double,
+            @ApiModelProperty(name = "장소 경도")
             var lng: Double,
+//            var totalScore: Double,//평점 추후 개발
+            @ApiModelProperty(name = "장소 가능 차종류", value = "[BASIC(일반차량), TRAILER(트레일러), CARAVAN(카라반), MOTERHUM(모터훔)]")
+            var possibleCarType: List<String>,
+            @ApiModelProperty(name = "장소 대표로 display할 기본, 부대시설")
+            var configList: List<String>//TODO: 대표 시설 뭐로 픽스되는지 물어보기
         )
     }
 

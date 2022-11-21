@@ -2,11 +2,7 @@ package com.example.cambak.database.entity
 
 import com.example.cambak.database.BaseEntity
 import java.time.LocalDateTime
-import javax.persistence.DiscriminatorColumn
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Inheritance
-import javax.persistence.InheritanceType
+import javax.persistence.*
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -19,6 +15,11 @@ class Image (
     var created: LocalDateTime = LocalDateTime.now(),
     var seq: Long,
     var associatedEntityId: String,
+    @Enumerated(value = EnumType.STRING)
+    var type: ImageType
 ) {
 
+}
+enum class ImageType(text: String){
+    CAMPSITE_BASIC("캠핑장 기본이미지"),CAMPSITE_LAYOUT("캠핑장 배치도")
 }

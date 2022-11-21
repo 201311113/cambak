@@ -40,11 +40,11 @@ const val PLACE_NOT_FOUND = - 5000
 
 //캠핑장 관련
 const val CAMPSITE_NOT_FOUND = -6000
+const val CAMPSITE_UPDATE_FAIL = -6001
 
 //이미지 관련
 const val IMAGE_UPLOAD_FAIL = -7000
 const val IMAGE_DELETE_FAIL = -7001
-
 
 //캠핑카 Config 관련
 const val CONFIG_TYPE_NOT_FOUND = -9000
@@ -52,6 +52,9 @@ const val ALREADY_CONFIG_KEY_EXIST = -9001
 const val MOBILE_NO_INVALID = -9002
 const val RENTAL_TIME_INVALID = -9003
 const val BASIC_CONFIG_INVALID = -9004
+
+//장소 Config 관련
+const val PLACE_CONFIG_NOT_FOUND = -9400
 
 
 val msgMap = mapOf(
@@ -84,6 +87,7 @@ val msgMap = mapOf(
 
     //캠핑장 관련
     CAMPSITE_NOT_FOUND to "캠핑장을 찾을 수 없습니다.",
+    CAMPSITE_UPDATE_FAIL to "캠핑장 정보 업데이트에 실패하였습니다.",
 
     //이미지 관련
     IMAGE_UPLOAD_FAIL to "이미지 업로드에 실패하였습니다.",
@@ -94,5 +98,8 @@ val msgMap = mapOf(
     ALREADY_CONFIG_KEY_EXIST to "이미 존재하는 부가시설 이름 입니다.",
     MOBILE_NO_INVALID to "전화번호 양식이 잘못되었습니다.",
     RENTAL_TIME_INVALID to "대여 시간 양식이 잘못되었습니다.",
-    BASIC_CONFIG_INVALID to "유효하지 않은 기본 보유시설값 입니다."
+    BASIC_CONFIG_INVALID to "유효하지 않은 기본 보유시설값 입니다.",
+
+    //장소 Config 관련
+    PLACE_CONFIG_NOT_FOUND to "해당 장소 기본, 부대시설, 해시태그등을 찾을 수 없습니다"
 )

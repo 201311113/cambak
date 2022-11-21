@@ -27,5 +27,8 @@ class ServiceProvider {
     @Autowired
     lateinit var placeService: PlaceService
 
+    @Autowired
+    lateinit var campsiteService: CampsiteService
+
 
 }

@@ -4,16 +4,11 @@ import com.example.cambak.cambak.common.util.BadRequestException
 import com.example.cambak.cambak.common.util.ServiceProvider
 import com.example.cambak.cambak.domains.place.model.PlaceDto
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 
 @RestController
@@ -61,19 +56,39 @@ class PlaceController {
 //    }
 
 
+
     @ApiOperation(
-        value = "장소 리스트 업 ",
+        value = "장소 필터링 조회 리스트업",
         notes = """
             code 0 : 성공
             code -1: 알 수 없는 오류
         """
     )
-    @GetMapping("/list")
+    @ApiImplicitParams(
+        ApiImplicitParam(
+            name = "filterTypeList", value = """
+            figma 3-1-2, 3-1-3의 필터타입 리스트
+            캠핑유형 = CAMPSITE(캠핑장),CARPARK(차박지)
+            해시태그 = [추후 예시 추가],
+            기본시설 = ELECTRIC(전기),CONVENIENCE_STORE(편의점/매점),GARBAGE_DUMP(쓰레기장),SHOWER_ROOM(샤워실),SINK(개수대), TOILET(화장실),WIFI(와이파이)
+            부대시설 = AMUSEMENT("놀이시설"), FIREWOOD_SALE(장작판매),GYM(운동시설), SWIMMING_POOL(수영장), TRAIL(산책로)
+            이용규칙 = SELF_CATERING("취사가능"), PET(반려동물)
+            지역 = SEOULANDGYEONGGI("서울/경기"),INCHEON("인천"),GANGWON("강원"),CHUNGBUK("충북"),CHUNGNAM("충남"),
+    GYEONGNAM("경남"),GYEONGBUK("경북"),JEONBUK("전북"),JEONNAM("전남"),JEJU("제주")
+            
+            차종류 = BASIC(일반차량), TRAILER(트레일러), CARAVAN(카라반), MOTERHUM(모터훔)
+            자연환경 = SEA("바다"),VALLEY("계곡(강/호수)"), MT("산")
+            
+            
+        """, required = false
+        )
+    )
+    @GetMapping("")
     fun getList(
-
-    ): PlaceDto.GetPlaceListRes{
+        @RequestParam filterTypeList: List<String>
+    ):PlaceDto.GetPlaceListRes{
         try {
-            return serviceProvider.placeService.getList()
+            return serviceProvider.placeService.getList(filterTypeList)
         }catch (e: BadRequestException){
             return PlaceDto.GetPlaceListRes(e.code)
         }

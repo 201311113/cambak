@@ -12,7 +12,7 @@ interface PlaceService {
     ): PlaceDto.UpdatePlaceRes
 
     fun getList(
-
+        filterTypeList: List<String>
     ): PlaceDto.GetPlaceListRes
 
     fun getDetail(
