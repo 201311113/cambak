@@ -1,6 +1,6 @@
-package com.example.cambak.cambak.domains.place.service
+package com.example.cambak.cambak.domains.place.place.service
 
-import com.example.cambak.cambak.domains.place.model.PlaceDto
+import com.example.cambak.cambak.domains.place.place.model.PlaceDto
 
 interface PlaceService {
     fun create(
@@ -17,7 +17,7 @@ interface PlaceService {
 
     fun getFilterTypeList(
 
-    ):PlaceDto.GetFilterTypeListRes
+    ): PlaceDto.GetFilterTypeListRes
 
     fun getDetail(
         placeId: String

@@ -1,7 +1,7 @@
-package com.example.cambak.cambak.domains.place.service
+package com.example.cambak.cambak.domains.place.place.service
 
 import com.example.cambak.cambak.common.util.Response
-import com.example.cambak.cambak.domains.place.controller.CreateConfigReq
+import com.example.cambak.cambak.domains.place.place.controller.CreateConfigReq
 import com.example.cambak.database.entity.place.Place
 import com.example.cambak.database.entity.place.PlaceTemp
 

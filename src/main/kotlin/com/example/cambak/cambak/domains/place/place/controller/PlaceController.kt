@@ -1,9 +1,9 @@
-package com.example.cambak.cambak.domains.place.controller
+package com.example.cambak.cambak.domains.place.place.controller
 
 import com.example.cambak.cambak.common.util.BadRequestException
 import com.example.cambak.cambak.common.util.Response
 import com.example.cambak.cambak.common.util.ServiceProvider
-import com.example.cambak.cambak.domains.place.model.PlaceDto
+import com.example.cambak.cambak.domains.place.place.model.PlaceDto
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
@@ -87,7 +87,7 @@ class PlaceController {
     @GetMapping("")
     fun getList(
         @RequestParam filterTypeList: List<String>
-    ):PlaceDto.GetPlaceListRes{
+    ): PlaceDto.GetPlaceListRes{
         try {
             return serviceProvider.placeService.getList(filterTypeList)
         }catch (e: BadRequestException){
@@ -105,7 +105,7 @@ class PlaceController {
     @GetMapping("/filter-type")
     fun getFilterTypeList(
 
-    ):PlaceDto.GetFilterTypeListRes{
+    ): PlaceDto.GetFilterTypeListRes{
         return serviceProvider.placeService.getFilterTypeList()
     }
 

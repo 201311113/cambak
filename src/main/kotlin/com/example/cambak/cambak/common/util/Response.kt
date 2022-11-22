@@ -42,6 +42,9 @@ const val PLACE_NOT_FOUND = - 5000
 const val CAMPSITE_NOT_FOUND = -6000
 const val CAMPSITE_UPDATE_FAIL = -6001
 
+//차박지 관련
+const val CARPARK_NOT_FOUND = -6100
+
 //이미지 관련
 const val IMAGE_UPLOAD_FAIL = -7000
 const val IMAGE_DELETE_FAIL = -7001
@@ -88,6 +91,9 @@ val msgMap = mapOf(
     //캠핑장 관련
     CAMPSITE_NOT_FOUND to "캠핑장을 찾을 수 없습니다.",
     CAMPSITE_UPDATE_FAIL to "캠핑장 정보 업데이트에 실패하였습니다.",
+
+    //차박지 관련
+    CARPARK_NOT_FOUND to "차박지를 찾을 수 없습니다.",
 
     //이미지 관련
     IMAGE_UPLOAD_FAIL to "이미지 업로드에 실패하였습니다.",

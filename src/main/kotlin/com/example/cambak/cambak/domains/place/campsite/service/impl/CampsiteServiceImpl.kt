@@ -1,8 +1,8 @@
-package com.example.cambak.cambak.domains.campsite.service.impl
+package com.example.cambak.cambak.domains.place.campsite.service.impl
 
 import com.example.cambak.cambak.common.util.*
-import com.example.cambak.cambak.domains.campsite.model.CampsiteDto
-import com.example.cambak.cambak.domains.campsite.service.CampsiteService
+import com.example.cambak.cambak.domains.place.campsite.model.CampsiteDto
+import com.example.cambak.cambak.domains.place.campsite.service.CampsiteService
 import com.example.cambak.database.entity.ExternalReview
 import com.example.cambak.database.entity.Image
 import com.example.cambak.database.entity.ImageType
@@ -18,7 +18,7 @@ import kotlin.jvm.Throws
 class CampsiteServiceImpl(
     var repo: RepositoryProvider,
     var awsS3Service: AmazonS3Service,
-): CampsiteService{
+): CampsiteService {
 
     override fun getDetail(campsiteId: String): CampsiteDto.GetCampsiteDetailRes {
         val campsite = repo.campsiteRepository.findByIdAndActive(campsiteId)
@@ -199,7 +199,6 @@ class CampsiteServiceImpl(
     ): CampsiteDto.UploadImageRes {
         val campsite = repo.campsiteRepository.findByIdAndActive(campsiteId)
             ?: return CampsiteDto.UploadImageRes(CAMPSITE_NOT_FOUND)
-        val oldImageList = repo.imageRepository.findAllByAssociatedEntityId(campsiteId)
 
         imageReq?.let {
             uploadImages(campsiteId,imageReq,ImageType.CAMPSITE_BASIC)

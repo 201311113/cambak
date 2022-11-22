@@ -1,11 +1,11 @@
-package com.example.cambak.cambak.domains.place.service.impl
+package com.example.cambak.cambak.domains.place.place.service.impl
 
 import com.example.cambak.cambak.common.util.OK
 import com.example.cambak.cambak.common.util.RepositoryProvider
 import com.example.cambak.cambak.common.util.Response
 import com.example.cambak.cambak.common.util.UNKNOWN_ERROR
-import com.example.cambak.cambak.domains.place.controller.CreateConfigReq
-import com.example.cambak.cambak.domains.place.service.PlaceDevService
+import com.example.cambak.cambak.domains.place.place.controller.CreateConfigReq
+import com.example.cambak.cambak.domains.place.place.service.PlaceDevService
 import com.example.cambak.database.entity.place.Place
 import com.example.cambak.database.entity.place.PlaceConfig
 import com.example.cambak.database.entity.place.PlaceTemp

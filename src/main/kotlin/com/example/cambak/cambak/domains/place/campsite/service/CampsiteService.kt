@@ -1,6 +1,6 @@
-package com.example.cambak.cambak.domains.campsite.service
+package com.example.cambak.cambak.domains.place.campsite.service
 
-import com.example.cambak.cambak.domains.campsite.model.CampsiteDto
+import com.example.cambak.cambak.domains.place.campsite.model.CampsiteDto
 import org.springframework.web.multipart.MultipartFile
 
 interface CampsiteService {
@@ -12,7 +12,7 @@ interface CampsiteService {
 
     fun create(
         req: CampsiteDto.CreateCampsiteReq
-    ):CampsiteDto.CreateCampsiteRes
+    ): CampsiteDto.CreateCampsiteRes
     fun uploadImages(
         campsiteId: String,
         imageReq: List<MultipartFile>?,

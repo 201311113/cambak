@@ -4,7 +4,7 @@ import com.example.cambak.database.entity.ExternalReview
 import javax.persistence.*
 
 @Entity
-@DiscriminatorValue(value = "campsite")
+@DiscriminatorValue(value = "CAMPSITE")
 @Table(name = "campsite")
 class Campsite (
 

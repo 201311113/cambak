@@ -1,10 +1,10 @@
-package com.example.cambak.cambak.domains.campsite.controller
+package com.example.cambak.cambak.domains.place.campsite.controller
 
 import com.example.cambak.cambak.common.util.BadRequestException
 import com.example.cambak.cambak.common.util.OK
 import com.example.cambak.cambak.common.util.Response
 import com.example.cambak.cambak.common.util.ServiceProvider
-import com.example.cambak.cambak.domains.campsite.model.CampsiteDto
+import com.example.cambak.cambak.domains.place.campsite.model.CampsiteDto
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
@@ -34,7 +34,7 @@ class CampsiteController {
     @PostMapping("/create")
     fun create(
         @RequestBody req: CampsiteDto.CreateCampsiteReq
-    ):CampsiteDto.CreateCampsiteRes{
+    ): CampsiteDto.CreateCampsiteRes{
         try {
             return serviceProvider.campsiteService.create(req)
         }catch (e: BadRequestException){
@@ -59,7 +59,7 @@ class CampsiteController {
         imageReq: List<MultipartFile>?,
         layoutReq: List<MultipartFile>?,
         @RequestPart deleteImageIds: String?
-    ):CampsiteDto.UploadImageRes{
+    ): CampsiteDto.UploadImageRes{
         try {
             return serviceProvider.campsiteService.uploadImages(campsiteId, imageReq, layoutReq,deleteImageIds)
         }catch (e: BadRequestException){
@@ -96,7 +96,7 @@ class CampsiteController {
     @GetMapping("/{campsiteId}")
     fun getDetail(
         @PathVariable campsiteId: String
-    ):CampsiteDto.GetCampsiteDetailRes{
+    ): CampsiteDto.GetCampsiteDetailRes{
         try {
             return serviceProvider.campsiteService.getDetail(campsiteId)
         }catch (e: BadRequestException){

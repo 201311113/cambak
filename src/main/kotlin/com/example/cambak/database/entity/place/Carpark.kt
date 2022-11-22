@@ -2,9 +2,11 @@ package com.example.cambak.database.entity.place
 
 import com.example.cambak.database.entity.ExternalReview
 import javax.persistence.Column
+import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
 
 @Entity
+@DiscriminatorValue(value = "CARPARK")
 class Carpark (
     name: String,
     address: String,

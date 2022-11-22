@@ -1,8 +1,8 @@
-package com.example.cambak.cambak.domains.place.service.impl
+package com.example.cambak.cambak.domains.place.place.service.impl
 
 import com.example.cambak.cambak.common.util.*
-import com.example.cambak.cambak.domains.place.model.PlaceDto
-import com.example.cambak.cambak.domains.place.service.PlaceService
+import com.example.cambak.cambak.domains.place.place.model.PlaceDto
+import com.example.cambak.cambak.domains.place.place.service.PlaceService
 import com.example.cambak.database.entity.ImageType
 import com.example.cambak.database.entity.place.*
 import com.mysql.cj.x.protobuf.Mysqlx.Ok

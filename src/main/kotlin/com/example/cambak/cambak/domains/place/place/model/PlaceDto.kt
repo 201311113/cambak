@@ -1,4 +1,4 @@
-package com.example.cambak.cambak.domains.place.model
+package com.example.cambak.cambak.domains.place.place.model
 
 import com.example.cambak.cambak.common.util.Response
 import com.example.cambak.database.entity.place.Region
@@ -84,7 +84,7 @@ class PlaceDto {
     )
     class GetPlaceDetailRes(
         code: Int,
-        var placeDetail: PlaceDetail ?= null
+        var placeDetail: PlaceDetail?= null
     ):Response(code){
         class PlaceDetail(
             var id: String,
