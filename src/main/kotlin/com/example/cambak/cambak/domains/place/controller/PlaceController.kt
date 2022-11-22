@@ -1,6 +1,7 @@
 package com.example.cambak.cambak.domains.place.controller
 
 import com.example.cambak.cambak.common.util.BadRequestException
+import com.example.cambak.cambak.common.util.Response
 import com.example.cambak.cambak.common.util.ServiceProvider
 import com.example.cambak.cambak.domains.place.model.PlaceDto
 import io.swagger.annotations.Api
@@ -92,6 +93,20 @@ class PlaceController {
         }catch (e: BadRequestException){
             return PlaceDto.GetPlaceListRes(e.code)
         }
+    }
+
+    @ApiOperation(
+        value = "장소 필터링 시 필요한 필터타입들 리스트업",
+        notes = """
+            code 0 : 성공
+            code -1: 알 수 없는 오류
+        """
+    )
+    @GetMapping("/filter-type")
+    fun getFilterTypeList(
+
+    ):PlaceDto.GetFilterTypeListRes{
+        return serviceProvider.placeService.getFilterTypeList()
     }
 
 

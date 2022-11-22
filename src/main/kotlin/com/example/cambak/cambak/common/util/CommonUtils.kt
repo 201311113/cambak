@@ -38,6 +38,20 @@ object CommonUtils {
             "MT","SEA","VALLEY"
         )
     }
+    fun getCampType(): List<String>{
+        return listOf(
+            "CAMPSITE","CARPARK"
+        )
+    }
+
+    fun calCarTypeBinaryToString(carType:String): List<String>{
+        val carTypeList = mutableListOf<String>()
+        if (carType[0] == '1') carTypeList.add("BASIC")
+        if (carType[1] == '1') carTypeList.add("TRAILER")
+        if (carType[2] == '1') carTypeList.add("CARAVAN")
+        if (carType[3] == '1') carTypeList.add("MOTERHUM")
+        return carTypeList
+    }
 
     fun getCarTypePossibility(type: List<String>, placeType: CharArray):Boolean{
         if(type.isNullOrEmpty()) return false

@@ -25,24 +25,6 @@ class CampsiteController {
     lateinit var serviceProvider: ServiceProvider
 
     @ApiOperation(
-        value = "캠핑장 상세 조회",
-        notes = """
-            code 0 : 성공
-            code -1: 알 수 없는 오류
-        """
-    )
-    @GetMapping("/{campsiteId}")
-    fun getList(
-        @PathVariable campsiteId: String
-    ): CampsiteDto.GetCampsiteDetailRes{
-        try {
-            return serviceProvider.campsiteService.getDetail(campsiteId)
-        }catch (e: BadRequestException){
-            return CampsiteDto.GetCampsiteDetailRes(e.code)
-        }
-    }
-
-    @ApiOperation(
         value = "[DEV] 캠핑장 등록",
         notes = """
             code 0 : 성공
@@ -104,24 +86,43 @@ class CampsiteController {
         }
     }
 
-
     @ApiOperation(
-        value = "캠핑장 이미지 리스트업",
+        value = "캠핑장 상세정보",
         notes = """
             code 0 : 성공
             code -1: 알 수 없는 오류
         """
     )
-    @GetMapping("/images/{campsiteId}")
-    fun getCampsiteImages(
-        @PathVariable campsiteId: String,
-    ): CampsiteDto.GetCampsiteImageListRes{
+    @GetMapping("/{campsiteId}")
+    fun getDetail(
+        @PathVariable campsiteId: String
+    ):CampsiteDto.GetCampsiteDetailRes{
         try {
-            return CampsiteDto.GetCampsiteImageListRes(OK)  //TODO: 개발해
+            return serviceProvider.campsiteService.getDetail(campsiteId)
         }catch (e: BadRequestException){
-            return CampsiteDto.GetCampsiteImageListRes(e.code)
+            return CampsiteDto.GetCampsiteDetailRes(e.code)
         }
     }
+
+
+
+//    @ApiOperation(
+//        value = "캠핑장 이미지 리스트업",
+//        notes = """
+//            code 0 : 성공
+//            code -1: 알 수 없는 오류
+//        """
+//    )
+//    @GetMapping("/images/{campsiteId}")
+//    fun getCampsiteImages(
+//        @PathVariable campsiteId: String,
+//    ): CampsiteDto.GetCampsiteImageListRes{
+//        try {
+//            return CampsiteDto.GetCampsiteImageListRes(OK)  //TODO: 개발해
+//        }catch (e: BadRequestException){
+//            return CampsiteDto.GetCampsiteImageListRes(e.code)
+//        }
+//    }
 
 
 

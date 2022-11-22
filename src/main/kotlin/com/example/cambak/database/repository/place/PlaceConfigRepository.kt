@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface PlaceConfigRepository: JpaRepository<PlaceConfig, String> {
     fun findByPlaceConfigKeyAndPlaceConfigType(placeConfigKey: String, placeConfigType: ConfigType): PlaceConfig?
+    fun findAllByPlaceConfigType(placeConfigType: ConfigType):List<PlaceConfig>?
 }

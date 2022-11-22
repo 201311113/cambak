@@ -21,7 +21,79 @@ class CampsiteServiceImpl(
 ): CampsiteService{
 
     override fun getDetail(campsiteId: String): CampsiteDto.GetCampsiteDetailRes {
-        TODO("Not yet implemented")
+        val campsite = repo.campsiteRepository.findByIdAndActive(campsiteId)
+            ?: return CampsiteDto.GetCampsiteDetailRes(CAMPSITE_NOT_FOUND)
+
+        return CampsiteDto.GetCampsiteDetailRes(
+            OK,
+            buildCampsiteDetail(campsite)
+        )
+    }
+
+    @Throws(BadRequestException::class)
+    fun buildCampsiteDetail(
+        campsite: Campsite
+    ): CampsiteDto.GetCampsiteDetailRes.CampsiteDetail{
+        val imageUrlList = repo.imageRepository.findAllByAssociatedEntityId(campsite.id!!)
+        val basicImageUrlList = imageUrlList
+            ?.filter { it.type == ImageType.CAMPSITE_BASIC }
+            ?.map { it.url }
+        val layoutImageUrlList = imageUrlList
+            ?.filter { it.type == ImageType.CAMPSITE_LAYOUT }
+            ?.map { it.url }
+
+        //placeConfig build (기본, 부대시설, hashtag)
+        val placeConfigList = campsite.placeConfigList
+        val hashtags = placeConfigList
+            ?.filter { it.placeConfig.placeConfigType == ConfigType.HASHTAG }
+            ?.map { it.placeConfig.placeConfigKey }
+        val basicConfigList = placeConfigList
+            ?.filter { it.placeConfig.placeConfigType == ConfigType.FACILITIES }
+            ?.map { it.placeConfig.placeConfigKey }
+        val amenityConfigList = placeConfigList
+            ?.filter { it.placeConfig.placeConfigType == ConfigType.AMENITIES }
+            ?.map { it.placeConfig.placeConfigKey }
+
+        val externalReviewList = campsite.externalReviewList
+        val blogUrlList = externalReviewList
+            ?.filter { it.type == Type.BLOG }
+            ?.map { it.url }
+        val youtubeUrls = externalReviewList
+            ?.filter { it.type == Type.YOUTUBE }
+            ?.map { it.url }
+
+
+        return CampsiteDto.GetCampsiteDetailRes.CampsiteDetail(
+            id = campsite.id!!,
+            name = campsite.name,
+            placeType = campsite.getPlaceType().toString(),
+            environment = campsite.environment,
+            address = campsite.address,
+            region = campsite.region,
+            imageUrlList = basicImageUrlList,
+            oneLineDescription = campsite.oneLineDescription,
+            hashTags = hashtags,
+            description = campsite.description,
+            campType = campsite.campType,
+            websiteUrl = campsite.websiteUrl,
+            priceDescription = campsite.priceDescription,
+            mannerTimeDescription = campsite.mannerTimeDescription,
+            basicConfigList = basicConfigList,
+            amenityConfigList = amenityConfigList,
+            possibleCarType = CommonUtils.calCarTypeBinaryToString(campsite.possibleCarType),
+            floorGround = campsite.floorGround,
+            campsiteSize = campsite.campsiteSize,
+            campsiteSpace = campsite.campsiteSpace,
+            layoutImageUrlList = layoutImageUrlList,
+            lat = campsite.lat,
+            lng = campsite.lng,
+            phoneNo = campsite.phoneNo,
+            score = campsite.totalScore.toDouble() / campsite.reviewer.toDouble(),
+            isLiked = false,//TODO: 다음 버전 기획 추후 개발
+            blogUrlList = blogUrlList,
+            youtubeUrls = youtubeUrls,
+
+        )
     }
     override fun create(req: CampsiteDto.CreateCampsiteReq): CampsiteDto.CreateCampsiteRes {
 

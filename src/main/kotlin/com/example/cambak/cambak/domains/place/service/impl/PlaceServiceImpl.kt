@@ -3,10 +3,8 @@ package com.example.cambak.cambak.domains.place.service.impl
 import com.example.cambak.cambak.common.util.*
 import com.example.cambak.cambak.domains.place.model.PlaceDto
 import com.example.cambak.cambak.domains.place.service.PlaceService
-import com.example.cambak.database.entity.place.Place
-import com.example.cambak.database.entity.place.PlaceConfig
-import com.example.cambak.database.entity.place.PlaceConfigMapping
-import com.example.cambak.database.entity.place.PlaceType
+import com.example.cambak.database.entity.ImageType
+import com.example.cambak.database.entity.place.*
 import com.mysql.cj.x.protobuf.Mysqlx.Ok
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -133,7 +131,8 @@ class PlaceServiceImpl(
                 lat = it.lat,
                 lng = it.lng,
                 possibleCarType = buildPossibleCarType(it.possibleCarType),
-                configList = it.placeConfigList?.map { it.placeConfig.placeConfigKey } ?: emptyList()
+                configList = it.placeConfigList?.map { it.placeConfig.placeConfigKey } ?: emptyList(),
+                imageUrlList = repo.imageRepository.findAllByAssociatedEntityIdAndType(it.id!!,ImageType.CAMPSITE_BASIC)?.map { it.url } ?: emptyList()
             )
         }?.toList() ?: emptyList()
     }
@@ -155,6 +154,26 @@ class PlaceServiceImpl(
             carTypeList.add("MOTERHUM")
         }
         return carTypeList
+    }
+
+    override fun getFilterTypeList(): PlaceDto.GetFilterTypeListRes {
+        val regionTypeList = CommonUtils.getRegions()
+        val carTypeList = CommonUtils.getCarType()
+        val campTypeList = CommonUtils.getCampType()
+        val facilityTypeList = repo.placeConfigRepository.findAllByPlaceConfigType(ConfigType.FACILITIES)?.map { it.placeConfigKey }
+        val amenityTypeList = repo.placeConfigRepository.findAllByPlaceConfigType(ConfigType.AMENITIES)?.map { it.placeConfigKey }
+        val ruleTypeList = repo.placeConfigRepository.findAllByPlaceConfigType(ConfigType.RULES)?.map { it.placeConfigKey }
+        val envTypeList = CommonUtils.getEnvType()
+        return PlaceDto.GetFilterTypeListRes(
+            OK,
+            regionTypeList = regionTypeList,
+            carTypeList = carTypeList,
+            campTypeList = campTypeList,
+            facilityTypeList = facilityTypeList!!,
+            amenityTypeList = amenityTypeList!!,
+            ruleTypeList = ruleTypeList!!,
+            envTypeList = envTypeList
+        )
     }
 
     override fun getDetail(placeId: String): PlaceDto.GetPlaceDetailRes {

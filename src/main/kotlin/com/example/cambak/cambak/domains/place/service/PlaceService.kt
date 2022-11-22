@@ -15,6 +15,10 @@ interface PlaceService {
         filterTypeList: List<String>
     ): PlaceDto.GetPlaceListRes
 
+    fun getFilterTypeList(
+
+    ):PlaceDto.GetFilterTypeListRes
+
     fun getDetail(
         placeId: String
     ): PlaceDto.GetPlaceDetailRes
